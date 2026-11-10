@@ -1,0 +1,835 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hygrine Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: a dark studio. Neutral graphite surfaces, a faint grid, two dim
+   burgundy lights in the distance. Red is reserved for small signals only:
+   the live dot, the progress line, the active like. Everything else is ink on dark. */
+:root {
+  --bg: #0b0a0a;
+  --bg-2: #121010;
+  --ink: #f2eeee;
+  --ink-dim: #a49c9d;
+  --ink-faint: #6f6869;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.15);
+  --surface: rgba(255, 255, 255, 0.025);
+  --red: #ff3b4e;
+  --red-deep: #6e0d1a;
+  --red-glow: rgba(255, 59, 78, 0.28);
+  --font-display: "Syne", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
+  --intro: 2s;
+  --px: 50%;
+  --py: 30%;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  padding-block: 0 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 50; background: var(--bg); }
+a { color: inherit; }
+::selection { background: var(--ink); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+
+/* ---------- intro ---------- */
+.intro { position: fixed; inset: 0; z-index: 100; background: var(--bg); clip-path: inset(0 0 0 0); display: grid; place-items: center; animation: intro-out 0.95s var(--ease-io) calc(var(--intro) + 0.1s) forwards; }
+@keyframes intro-out { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+.intro-mark { overflow: hidden; padding: 0.1em 0.05em; animation: mark-out 0.6s var(--ease-io) calc(var(--intro) - 0.35s) forwards; }
+.intro-mark span { display: block; font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 7vw, 4.6rem); letter-spacing: -0.05em; line-height: 1; animation: mark-in 1.2s var(--ease) 0.15s backwards; }
+@keyframes mark-in { from { transform: translateY(105%); } }
+@keyframes mark-out { to { opacity: 0; transform: translateY(-24%); } }
+.intro-meta { position: absolute; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(22px + env(safe-area-inset-bottom, 0px)); display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dim); animation: fade-in 0.8s ease 0.3s backwards; }
+.intro-meta b { font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+.intro-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--line); }
+.intro-bar i { display: block; height: 100%; background: var(--ink); transform-origin: 0 50%; animation: bar calc(var(--intro) - 0.2s) cubic-bezier(0.65, 0, 0.35, 1) forwards; transform: scaleX(0); }
+@keyframes bar { to { transform: scaleX(1); } }
+@keyframes fade-in { from { opacity: 0; } }
+
+/* ---------- atmosphere ---------- */
+.atmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.blob { position: absolute; border-radius: 50%; filter: blur(130px); will-change: transform; }
+.blob.a { width: 50vmax; height: 50vmax; left: -16vmax; top: -22vmax; background: radial-gradient(circle, #8a1224 0%, var(--red-deep) 50%, transparent 72%); opacity: 0.34; animation: drift-a 28s ease-in-out infinite alternate; }
+.blob.b { width: 42vmax; height: 42vmax; right: -18vmax; top: 30vh; background: radial-gradient(circle, #6e0d1a 0%, #2a050b 58%, transparent 74%); opacity: 0.3; animation: drift-b 34s ease-in-out infinite alternate; }
+.blob.c { width: 34vmax; height: 34vmax; left: 20vw; bottom: -22vmax; background: radial-gradient(circle, #5a0b17 0%, transparent 70%); opacity: 0.22; animation: drift-a 40s ease-in-out infinite alternate-reverse; }
+@keyframes drift-a { to { transform: translate3d(9vmax, 7vmax, 0) scale(1.1); } }
+@keyframes drift-b { to { transform: translate3d(-10vmax, -5vmax, 0) scale(0.92); } }
+.grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(520px circle at var(--px) var(--py), #000 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.1) 100%);
+          mask-image: radial-gradient(520px circle at var(--px) var(--py), #000 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.1) 100%);
+}
+.vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(11, 10, 10, 0.8) 100%); }
+.noise {
+  position: fixed; inset: -80px; z-index: 45; pointer-events: none; opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  animation: grain 0.9s steps(5) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); } 20% { transform: translate(-30px, 22px); } 40% { transform: translate(24px, -40px); }
+  60% { transform: translate(-48px, -14px); } 80% { transform: translate(38px, 30px); } 100% { transform: translate(0, 0); }
+}
+.progress { position: fixed; left: 0; right: 0; top: env(safe-area-inset-top, 0px); height: 2px; z-index: 60; pointer-events: none; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, rgba(255,255,255,0.1), var(--red)); }
+@supports (animation-timeline: scroll()) {
+  .progress { animation: grow linear both; animation-timeline: scroll(root); }
+  @keyframes grow { to { transform: scaleX(1); } }
+}
+.cur { position: fixed; left: 0; top: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1px solid rgba(255, 255, 255, 0.45); border-radius: 50%; pointer-events: none; z-index: 70; transform: translate(-100px, -100px); transition: width 0.5s var(--ease), height 0.5s var(--ease), margin 0.5s var(--ease), background 0.4s, border-color 0.4s; }
+.cur.hot { width: 70px; height: 70px; margin: -35px 0 0 -35px; background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.3); }
+.cur-dot { position: fixed; left: 0; top: 0; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: var(--ink); pointer-events: none; z-index: 71; transform: translate(-100px, -100px); }
+
+/* ---------- shell ---------- */
+.wrap { position: relative; z-index: 1; width: 100%; max-width: 1180px; margin-inline: auto; }
+nav.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; animation: fade-in 1s ease calc(var(--intro) + 0.1s) backwards; }
+nav.top::before { content: ""; position: absolute; inset: 0 -100vw; z-index: -1; background: linear-gradient(to bottom, rgba(11,10,10,0.82), rgba(11,10,10,0)); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent); mask-image: linear-gradient(to bottom, #000 60%, transparent); }
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; text-decoration: none; letter-spacing: -0.02em; display: inline-flex; align-items: center; gap: 10px; }
+.logo i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 12px 1px var(--red-glow); animation: pulse 2.6s ease-in-out infinite; }
+@keyframes pulse { 50% { transform: scale(0.6); opacity: 0.6; } }
+.nav-r { display: flex; align-items: center; gap: clamp(14px, 3vw, 30px); }
+.links { display: flex; gap: clamp(14px, 3vw, 30px); font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.links a { text-decoration: none; color: var(--ink-dim); position: relative; padding: 6px 0; transition: color 0.25s; }
+.links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ease); }
+.links a:hover { color: var(--ink); }
+.links a:hover::after { transform: scaleX(1); }
+.snd { appearance: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-dim); border-radius: 999px; padding: 7px 12px; font: 500 0.68rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: color 0.3s, border-color 0.3s; }
+.snd:hover { color: var(--ink); border-color: var(--ink-dim); }
+.snd svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.snd .bars path { transition: opacity 0.3s; }
+.snd[aria-pressed="false"] .bars path { opacity: 0.2; }
+.snd[aria-pressed="true"] { color: var(--ink); border-color: var(--ink-dim); }
+
+/* ---------- hero ---------- */
+.hero { position: relative; padding-block: clamp(48px, 9vw, 120px) clamp(40px, 6vw, 72px); }
+.hero::before { content: ""; position: absolute; left: -10%; top: 6%; width: 70%; height: 62%; background: radial-gradient(closest-side, rgba(255, 59, 78, 0.12), transparent); filter: blur(46px); z-index: -1; pointer-events: none; animation: breathe 9s ease-in-out infinite alternate; }
+@keyframes breathe { to { transform: translate3d(14%, 6%, 0) scale(1.15); opacity: 0.7; } }
+.eyebrow { font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-dim); display: flex; align-items: center; gap: 12px; margin: 0 0 clamp(18px, 3vw, 34px); animation: fade-up 1s var(--ease) calc(var(--intro) + 0.15s) backwards; }
+.eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--ink-faint); }
+@property --k { syntax: "<number>"; inherits: true; initial-value: 0; }
+@keyframes sweep { from { --k: 0.4; } to { --k: 2.1; } }
+h1.name {
+  position: relative; margin: 0;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 12vw; /* refined by script so the name always fits on one line */
+  line-height: 0.88; letter-spacing: -0.055em;
+  display: flex; flex-wrap: nowrap; white-space: nowrap; width: max-content; max-width: none;
+  padding-bottom: 0.08em; transform-origin: 30% 60%;
+  animation: sweep 7s var(--ease-io) calc(var(--intro) + 1.8s) infinite;
+}
+h1.name .ch {
+  display: inline-block; color: transparent;
+  background-image: linear-gradient(100deg, #f1ecec 0%, #f1ecec 30%, #ffd9dd 42%, #ff7d8b 50%, #ffd9dd 58%, #f1ecec 70%, #f1ecec 100%);
+  background-size: calc(var(--W, 800px) * 3) 100%;
+  background-position: calc(-1 * var(--x, 0px) - var(--W, 800px) * var(--k)) 0;
+  -webkit-background-clip: text; background-clip: text;
+  animation: letter 1.25s var(--ease) backwards;
+  animation-delay: calc(var(--intro) + 0.1s + var(--i) * 70ms);
+}
+@keyframes letter { from { transform: translateY(46%) rotate(4deg); opacity: 0; filter: blur(14px); } }
+@keyframes fade-up { from { transform: translateY(22px); opacity: 0; } }
+.hero-sub { margin: clamp(22px, 3vw, 38px) 0 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px 48px; align-items: end; }
+.roles { margin: 0; font-size: clamp(1.15rem, 2.4vw, 1.7rem); line-height: 1.35; font-weight: 300; max-width: 22ch; animation: fade-up 1s var(--ease) calc(var(--intro) + 0.8s) backwards; }
+.roles b { font-weight: 600; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; animation: fade-up 1s var(--ease) calc(var(--intro) + 1s) backwards; }
+.btn {
+  appearance: none; display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 22px; border-radius: 999px;
+  border: 1px solid var(--line-strong); background: var(--surface);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  color: var(--ink); font: 500 0.82rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; cursor: pointer;
+  transition: border-color 0.3s, background 0.3s, transform 0.4s var(--ease), translate 0.6s var(--ease);
+}
+.btn:hover { border-color: var(--ink-dim); background: rgba(255, 255, 255, 0.07); transform: translateY(-2px); }
+.btn.solid { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn.solid:hover { background: #fff; }
+
+/* like */
+.like { position: relative; padding-right: 20px; }
+.like svg { width: 18px; height: 18px; fill: transparent; stroke: currentColor; stroke-width: 1.8; transition: fill 0.35s, stroke 0.35s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.like[aria-pressed="true"] { border-color: rgba(255, 59, 78, 0.6); background: rgba(255, 59, 78, 0.1); }
+.like[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); transform: scale(1.12); }
+.like .n { font-variant-numeric: tabular-nums; min-width: 2ch; text-align: right; font-size: 0.95rem; letter-spacing: 0; }
+.like .l { color: var(--ink-dim); }
+.spark { position: absolute; left: 30px; top: 50%; width: 4px; height: 4px; border-radius: 50%; background: var(--red); pointer-events: none; }
+
+/* ---------- bento widgets ---------- */
+.bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(12px, 1.8vw, 22px); }
+.tile { position: relative; min-width: 0; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); padding: clamp(18px, 2.2vw, 26px); transition: border-color 0.5s var(--ease), background 0.5s var(--ease); }
+.tile:hover { border-color: var(--line-strong); background: rgba(255, 255, 255, 0.04); }
+.tile-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-faint); }
+.live { display: inline-flex; align-items: center; gap: 8px; }
+.live i { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pulse 2s ease-in-out infinite; }
+.t-time { grid-column: span 5; }
+.t-links { grid-column: span 7; }
+.clock-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(16px, 2.4vw, 28px); align-items: center; }
+.dial { width: clamp(92px, 11vw, 120px); height: auto; overflow: visible; }
+.dial circle.ring { fill: none; stroke: var(--line-strong); stroke-width: 1; }
+.dial .tick { stroke: var(--ink-faint); stroke-width: 1; }
+.dial .tick.q { stroke: var(--ink-dim); stroke-width: 1.6; }
+.dial .hand { stroke: var(--ink); stroke-linecap: round; }
+.dial .sec { stroke: var(--red); stroke-width: 1; }
+.dial .pin { fill: var(--ink); }
+.digits { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 4.4vw, 3.1rem); letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.date { margin: 8px 0 0; font-size: 0.92rem; color: var(--ink-dim); }
+.zone { display: inline-flex; margin-top: 12px; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); border: 1px solid var(--line-strong); border-radius: 999px; padding: 5px 10px; }
+.link { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-top: 1px solid var(--line); text-decoration: none; transition: padding 0.5s var(--ease), border-color 0.4s; }
+.link:last-child { padding-bottom: 2px; }
+.link:hover { padding-left: 10px; border-color: var(--line-strong); }
+.badge { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line-strong); display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; letter-spacing: -0.03em; background: rgba(255, 255, 255, 0.04); transition: background 0.4s, color 0.4s; }
+.link:hover .badge { background: var(--ink); color: var(--bg); }
+.link .lt { min-width: 0; display: grid; gap: 1px; }
+.link b { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.link small { font-family: var(--font-mono); font-size: 0.74rem; color: var(--ink-dim); overflow-wrap: anywhere; }
+.pill { font-family: var(--font-mono); font-weight: 500; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dim); border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 8px; }
+.ar { width: 18px; height: 18px; stroke: var(--ink-dim); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.5s var(--ease), stroke 0.3s; }
+.link:hover .ar { transform: translate(3px, -3px); stroke: var(--ink); }
+
+/* ---------- marquee ---------- */
+.marquee { margin-top: clamp(48px, 7vw, 90px); border-block: 1px solid var(--line); overflow: hidden; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.marquee .track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee span { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.1rem, 2.4vw, 1.6rem); letter-spacing: -0.01em; padding: 18px 28px; color: var(--ink-faint); white-space: nowrap; display: inline-flex; align-items: center; gap: 56px; }
+.marquee span::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--line-strong); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- sections ---------- */
+section { padding-block: clamp(64px, 9vw, 130px) 0; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: clamp(26px, 4vw, 52px); }
+.sec-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 5.4vw, 4rem); letter-spacing: -0.04em; line-height: 1; text-wrap: balance; }
+.sec-head p { margin: 0; font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-faint); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rv { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 38%; }
+    @keyframes rise { from { opacity: 0.2; transform: translateY(34px); filter: blur(6px); } }
+    .card.rv { animation: card-in linear both; animation-timeline: view(); animation-range: entry 0% entry 62%; }
+    .card.rv:nth-child(even) { animation-name: card-in-b; animation-range: entry 8% entry 72%; }
+    .card .art { animation: par linear both; animation-timeline: view(); }
+    @keyframes card-in { from { opacity: 0.15; translate: 0 70px; scale: 0.93; filter: blur(8px); } }
+    @keyframes card-in-b { from { opacity: 0.15; translate: 0 100px; scale: 0.95; filter: blur(8px); } }
+    @keyframes par { from { translate: 0 -9%; } to { translate: 0 9%; } }
+  }
+}
+
+.about { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.about .lead { margin: 0; font-size: clamp(1.45rem, 3.3vw, 2.5rem); line-height: 1.22; font-weight: 300; letter-spacing: -0.025em; text-wrap: balance; }
+.about .lead em { font-style: normal; font-weight: 500; border-bottom: 1px solid var(--red); }
+.disc { display: grid; border-top: 1px solid var(--line); }
+.disc div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: center; transition: padding 0.5s var(--ease), border-color 0.4s; }
+.disc div:hover { padding-left: 14px; border-color: var(--line-strong); }
+.disc h3 { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em; }
+.disc small { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.1em; text-align: right; }
+
+/* ---------- work ---------- */
+.work { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(12px, 1.8vw, 22px); }
+.card { position: relative; min-width: 0; grid-column: span 6; min-height: clamp(300px, 29vw, 380px); border-radius: 22px; border: 1px solid var(--line); overflow: hidden; background: var(--bg-2); isolation: isolate; transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: border-color 0.6s var(--ease); will-change: transform; display: flex; }
+.card:nth-child(1) { grid-column: span 7; }
+.card:nth-child(2) { grid-column: span 5; }
+.card:nth-child(3) { grid-column: span 5; }
+.card:nth-child(4) { grid-column: span 7; }
+.card:hover { border-color: var(--line-strong); }
+.card .art { position: absolute; inset: -20%; z-index: -2; transition: transform 1.4s var(--ease); will-change: transform, translate; }
+.card:hover .art { transform: scale(1.06); }
+.card:nth-child(odd) .art { background: radial-gradient(60% 60% at 20% 10%, rgba(255,255,255,0.07), transparent), radial-gradient(50% 50% at 92% 100%, rgba(255,59,78,0.14), transparent); }
+.card:nth-child(even) .art { background: radial-gradient(60% 60% at 80% 0%, rgba(255,255,255,0.07), transparent), radial-gradient(50% 50% at 8% 100%, rgba(255,59,78,0.12), transparent); }
+.card::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 36px 36px; -webkit-mask-image: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), #000, transparent 80%); mask-image: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), #000, transparent 80%); }
+.meta { flex: 1; min-width: 0; padding: clamp(16px, 2.2vw, 26px); display: flex; flex-direction: column; gap: 14px; }
+.meta-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tag, .state { font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(11, 10, 10, 0.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.state { color: var(--ink-faint); border-color: var(--line); }
+.stage { flex: 1; min-height: 0; display: grid; place-items: center; }
+.meta h3 { margin: 0 0 2px; font-family: var(--font-display); font-weight: 800; font-size: clamp(1.3rem, 2.4vw, 1.9rem); letter-spacing: -0.035em; line-height: 1.05; }
+.meta p { margin: 0; font-size: 0.88rem; color: var(--ink-dim); }
+
+/* logos */
+.marks { display: grid; grid-template-columns: repeat(3, auto); gap: clamp(14px, 2.4vw, 26px) clamp(20px, 3.4vw, 40px); }
+.mk { width: clamp(48px, 5.4vw, 62px); height: clamp(48px, 5.4vw, 62px); display: grid; place-items: center; color: var(--ink); transition: transform 0.7s var(--ease), color 0.4s; }
+.mk svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+.mk svg .f { fill: currentColor; stroke: none; }
+.mk:hover { transform: translateY(-6px) scale(1.12) rotate(-4deg); }
+.mk:hover svg * { animation: draw 1.1s var(--ease); }
+.mk.acc:hover { color: var(--red); }
+@keyframes draw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
+
+/* motion loops */
+.lab { display: flex; align-items: center; justify-content: center; gap: clamp(22px, 4vw, 48px); height: 100px; }
+.sh { width: 46px; height: 46px; background: var(--ink); }
+.sh.blob { animation: morph 6s ease-in-out infinite; }
+.sh.ball { border-radius: 50%; animation: bounce 1.6s infinite; }
+.sh.sq { background: transparent; border: 2px solid var(--ink); animation: turn 4.5s var(--ease-io) infinite; }
+.sh.sq::after { content: ""; display: block; width: 8px; height: 8px; margin: 14px auto 0; border-radius: 50%; background: var(--red); }
+@keyframes morph {
+  0%, 100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; transform: rotate(0); }
+  25% { border-radius: 30% 70% 60% 40% / 50% 40% 60% 50%; transform: rotate(40deg); }
+  50% { border-radius: 60% 40% 30% 70% / 40% 60% 40% 60%; transform: rotate(120deg) scale(1.1); }
+  75% { border-radius: 40% 60% 70% 30% / 60% 30% 70% 40%; transform: rotate(200deg); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(-26px); animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5); }
+  48% { transform: translateY(24px) scale(1, 1); }
+  50% { transform: translateY(24px) scale(1.3, 0.7); }
+  52% { transform: translateY(24px) scale(1, 1); animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1); }
+}
+@keyframes turn {
+  0%, 100% { border-radius: 8px; transform: rotate(0) scale(1); }
+  50% { border-radius: 50%; transform: rotate(180deg) scale(0.8); }
+}
+
+/* discord channel list */
+.chs { width: min(240px, 80%); display: grid; gap: 8px; }
+.chs div { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; font-family: var(--font-mono); font-size: 0.74rem; color: var(--ink-faint); animation: act 6s infinite; animation-delay: calc(var(--i) * 1.5s); }
+.chs div i { display: block; height: 6px; border-radius: 3px; background: currentColor; opacity: 0.5; width: var(--w); }
+@keyframes act { 0%, 20%, 100% { background: transparent; color: var(--ink-faint); } 5%, 15% { background: rgba(255, 255, 255, 0.07); color: var(--ink); } }
+
+/* bot terminal */
+.term { width: min(300px, 86%); border: 1px solid var(--line-strong); border-radius: 12px; background: rgba(11, 10, 10, 0.55); padding: 14px 16px; font-family: var(--font-mono); font-size: 0.8rem; display: grid; gap: 10px; }
+.term .cmd { display: inline-block; overflow: hidden; white-space: nowrap; width: 0; border-right: 2px solid var(--ink); animation: type 5s steps(5) infinite, caret 0.8s step-end infinite; justify-self: start; }
+.term .rep { height: 6px; border-radius: 3px; background: var(--ink-faint); width: 70%; opacity: 0; animation: reply 5s infinite; }
+.term .rep + .rep { width: 44%; animation-delay: 0.2s; }
+@keyframes type { 0% { width: 0; } 30%, 100% { width: 5ch; } }
+@keyframes caret { 50% { border-color: transparent; } }
+@keyframes reply { 0%, 32% { opacity: 0; transform: translateY(4px); } 40%, 90% { opacity: 0.7; transform: none; } 100% { opacity: 0; } }
+
+/* contact */
+.contact { position: relative; border: 1px solid var(--line); border-radius: 28px; padding: clamp(28px, 5vw, 72px); overflow: hidden; background: linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.012) 45%); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.contact::before { content: ""; position: absolute; width: 60%; aspect-ratio: 1; right: -18%; top: -50%; background: radial-gradient(circle, rgba(255, 59, 78, 0.16), transparent 65%); filter: blur(50px); z-index: -1; }
+.contact h2 { margin: 0 0 14px; font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 6vw, 4.6rem); letter-spacing: -0.045em; line-height: 0.98; text-wrap: balance; max-width: 14ch; }
+.contact > p { margin: 0 0 clamp(24px, 3vw, 40px); color: var(--ink-dim); max-width: 46ch; }
+.channels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.chan { min-width: 0; border: 1px solid var(--line-strong); border-radius: 18px; padding: 18px 20px; display: grid; gap: 4px; background: rgba(11, 10, 10, 0.4); }
+.chan .k { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); }
+.chan .v { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; letter-spacing: -0.02em; overflow-wrap: anywhere; user-select: all; }
+.chan .v.empty { color: var(--ink-dim); font-family: var(--font-body); font-weight: 400; font-size: 1rem; user-select: auto; }
+.copy { flex: none; appearance: none; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-dim); border-radius: 999px; padding: 6px 12px; font: 500 0.66rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: color 0.25s, border-color 0.25s; }
+.copy:hover { color: var(--ink); border-color: var(--ink-dim); }
+
+footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 7vw, 90px) auto 0; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 860px) {
+  .hero-sub, .about { grid-template-columns: minmax(0, 1fr); }
+  .t-time, .t-links { grid-column: span 12; }
+  .card, .card:nth-child(n) { grid-column: span 12; min-height: 320px; }
+}
+@media (max-width: 560px) {
+  .links { display: none; }
+  .channels { grid-template-columns: minmax(0, 1fr); }
+  .logo span { display: none; }
+  .snd span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --intro: 0s; }
+  html { scroll-behavior: auto; }
+  .intro { display: none; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .marquee .track { animation: none; }
+  .noise { display: none; }
+}
+</style>
+
+<div class="intro" aria-hidden="true">
+  <div class="intro-mark"><span>Hygrine</span></div>
+  <div class="intro-meta"><span>Portfolio 2026</span><b id="introN">000</b></div>
+  <div class="intro-bar"><i></i></div>
+</div>
+
+<div class="atmos" aria-hidden="true">
+  <div class="blob a"></div>
+  <div class="blob b"></div>
+  <div class="blob c"></div>
+  <div class="grid"></div>
+  <div class="vignette"></div>
+</div>
+<div class="noise" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"></div>
+
+<div class="wrap">
+  <nav class="top" aria-label="Main">
+    <a class="logo" href="#top" aria-label="Hygrine, back to top"><i></i><span>Hygrine</span></a>
+    <div class="nav-r">
+      <div class="links">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="snd" id="snd" type="button" aria-pressed="false" aria-label="Sound effects">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><g class="bars"><path d="M16.5 9a4 4 0 0 1 0 6"/><path d="M19 6.5a8 8 0 0 1 0 11"/></g></svg>
+        <span id="sndT">Sound off</span>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <p class="eyebrow">Portfolio 2026</p>
+    <h1 class="name" id="name" aria-label="Hygrine">Hygrine</h1>
+    <div class="hero-sub">
+      <p class="roles"><b>Animator</b>, graphics designer, Discord server and bot developer.</p>
+      <div class="cta-row">
+        <a class="btn solid" href="#contact">Get in touch</a>
+        <button class="btn like" type="button" aria-pressed="false" aria-label="Like this portfolio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6s-7.6-4.7-9.4-9.3C1.4 8 3.3 5 6.4 5c2 0 3.7 1.2 5.6 3.2C13.9 6.2 15.6 5 17.6 5c3.1 0 5 3 3.8 6.3-1.8 4.6-9.4 9.3-9.4 9.3z" stroke-linejoin="round"/></svg>
+          <span class="n">38</span><span class="l">likes</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="bento">
+    <div class="tile t-time rv">
+      <div class="tile-head"><span class="live"><i></i>Local time</span><span>Poland</span></div>
+      <div class="clock-row">
+        <svg class="dial" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="ring" cx="50" cy="50" r="47"/>
+          <g id="ticks"></g>
+          <line id="hH" class="hand" x1="50" y1="50" x2="50" y2="29" stroke-width="3"/>
+          <line id="hM" class="hand" x1="50" y1="50" x2="50" y2="17" stroke-width="2"/>
+          <line id="hS" class="hand sec" x1="50" y1="56" x2="50" y2="12"/>
+          <circle class="pin" cx="50" cy="50" r="2.4"/>
+        </svg>
+        <div>
+          <div class="digits" id="digits" role="timer" aria-label="Current time in Poland">00:00:00</div>
+          <p class="date" id="date">&nbsp;</p>
+          <span class="zone" id="zone">Warsaw</span>
+        </div>
+      </div>
+    </div>
+    <div class="tile t-links rv">
+      <div class="tile-head"><span>Find me online</span><span>2 links</span></div>
+      <a class="link" href="https://cara.app/hygrine" target="_blank" rel="noopener">
+        <span class="badge" aria-hidden="true">C</span>
+        <span class="lt"><b>Cara</b><small>cara.app/hygrine</small></span>
+        <svg class="ar" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+      <a class="link" href="https://y3.baby/hygrine" target="_blank" rel="noopener">
+        <span class="badge" aria-hidden="true">Y3</span>
+        <span class="lt"><b>Biolink <span class="pill">All my links</span></b><small>y3.baby/hygrine</small></span>
+        <svg class="ar" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>Animation</span><span>Graphic design</span><span>Discord servers</span><span>Custom bots</span>
+      <span>Animation</span><span>Graphic design</span><span>Discord servers</span><span>Custom bots</span>
+      <span>Animation</span><span>Graphic design</span><span>Discord servers</span><span>Custom bots</span>
+      <span>Animation</span><span>Graphic design</span><span>Discord servers</span><span>Custom bots</span>
+    </div>
+  </div>
+
+  <section id="about" class="rv">
+    <div class="sec-head"><h2>About</h2><p>Bio</p></div>
+    <div class="about">
+      <p class="lead">Animator, graphics designer, Discord server and bot developer. <em>DM me on Discord or via email</em> for details.</p>
+      <div class="disc">
+        <div><h3>Animation</h3><small>Motion</small></div>
+        <div><h3>Graphic design</h3><small>Visuals</small></div>
+        <div><h3>Discord servers</h3><small>Community</small></div>
+        <div><h3>Bot development</h3><small>Code</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="sec-head rv"><h2>Selected work</h2><p>More projects coming soon</p></div>
+    <div class="work">
+      <article class="card rv"><div class="art"></div><div class="meta">
+        <div class="meta-top"><span class="tag">Logos</span><span class="state">Concepts</span></div>
+        <div class="stage"><div class="marks" aria-hidden="true">
+          <span class="mk"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="20" pathLength="1"/><circle class="f" cx="28" cy="28" r="8"/></svg></span>
+          <span class="mk"><svg viewBox="0 0 56 56"><path d="M28 8L48 44H8Z" pathLength="1"/><path d="M28 26L37 42H19Z" pathLength="1"/></svg></span>
+          <span class="mk"><svg viewBox="0 0 56 56"><path d="M28 6L47 17V39L28 50L9 39V17Z" pathLength="1"/><path d="M28 6V50M9 17L47 39" pathLength="1"/></svg></span>
+          <span class="mk"><svg viewBox="0 0 56 56"><rect x="12" y="12" width="32" height="32" rx="7" transform="rotate(45 28 28)" pathLength="1"/><circle class="f" cx="28" cy="28" r="4"/></svg></span>
+          <span class="mk"><svg viewBox="0 0 56 56"><path d="M15 12V44M41 12V44M15 28H41" pathLength="1" stroke-width="4.4"/></svg></span>
+          <span class="mk acc"><svg viewBox="0 0 56 56"><path d="M6 28C6 14 22 14 28 28S50 42 50 28" pathLength="1"/></svg></span>
+        </div></div>
+        <div><h3>Logos</h3><p>Marks and identity concepts.</p></div>
+      </div></article>
+
+      <article class="card rv"><div class="art"></div><div class="meta">
+        <div class="meta-top"><span class="tag">Animation</span><span class="state">Live loops</span></div>
+        <div class="stage"><div class="lab" aria-hidden="true"><span class="sh blob"></span><span class="sh ball"></span><span class="sh sq"></span></div></div>
+        <div><h3>Animations</h3><p>Shape, timing and motion studies.</p></div>
+      </div></article>
+
+      <article class="card rv"><div class="art"></div><div class="meta">
+        <div class="meta-top"><span class="tag">Discord</span><span class="state">Coming soon</span></div>
+        <div class="stage"><div class="chs" aria-hidden="true">
+          <div style="--i:0;--w:70px"># <i style="--w:70px"></i></div>
+          <div style="--i:1"># <i style="--w:100px"></i></div>
+          <div style="--i:2"># <i style="--w:56px"></i></div>
+          <div style="--i:3"># <i style="--w:88px"></i></div>
+        </div></div>
+        <div><h3>Discord servers</h3><p>Structure, roles and automation.</p></div>
+      </div></article>
+
+      <article class="card rv"><div class="art"></div><div class="meta">
+        <div class="meta-top"><span class="tag">Bots</span><span class="state">Coming soon</span></div>
+        <div class="stage"><div class="term" aria-hidden="true"><span class="cmd">/help</span><span class="rep"></span><span class="rep"></span></div></div>
+        <div><h3>Bot projects</h3><p>Custom commands and tools.</p></div>
+      </div></article>
+    </div>
+  </section>
+
+  <section id="contact" class="rv">
+    <div class="contact">
+      <h2>Have a project in mind?</h2>
+      <p>DM me on Discord or write via email with the details and I will get back to you.</p>
+      <div class="channels">
+        <div class="chan"><span class="k">Discord</span><div class="v" id="vDiscord"></div></div>
+        <div class="chan"><span class="k">Email</span><div class="v" id="vEmail"></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <span>&copy; 2026 Hygrine</span>
+  <button class="btn like" type="button" aria-pressed="false" aria-label="Like this portfolio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6s-7.6-4.7-9.4-9.3C1.4 8 3.3 5 6.4 5c2 0 3.7 1.2 5.6 3.2C13.9 6.2 15.6 5 17.6 5c3.1 0 5 3 3.8 6.3-1.8 4.6-9.4 9.3-9.4 9.3z" stroke-linejoin="round"/></svg>
+    <span class="n">38</span><span class="l">likes</span>
+  </button>
+</footer>
+
+<script>
+(function () {
+  var CONTACT = { discord: "Hygrine", email: "Hygrine@proton.me" };
+  var BASE = 38;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- intro counter ---- */
+  var introN = document.getElementById("introN");
+  if (!reduce) {
+    var t0i = performance.now(), dur = 1800;
+    (function count(now) {
+      var p = Math.min(1, (now - t0i) / dur);
+      var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      introN.textContent = String(Math.round(e * 100)).padStart(3, "0");
+      if (p < 1) requestAnimationFrame(count);
+    })(t0i);
+  }
+
+  /* ---- sound effects (off until the visitor turns them on) ---- */
+  var sfx = { on: false, ctx: null };
+  try { sfx.on = localStorage.getItem("hyg-sfx") === "1"; } catch (e) {}
+  function actx() {
+    if (!sfx.ctx) {
+      var C = window.AudioContext || window.webkitAudioContext;
+      if (C) { try { sfx.ctx = new C(); } catch (e) {} }
+    }
+    if (sfx.ctx && sfx.ctx.state === "suspended") { try { sfx.ctx.resume(); } catch (e) {} }
+    return sfx.ctx;
+  }
+  function tone(f1, f2, dur, type, vol, delay) {
+    if (!sfx.on) return;
+    var c = actx(); if (!c) return;
+    var t = c.currentTime + (delay || 0);
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type || "sine";
+    o.frequency.setValueAtTime(f1, t);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + dur + 0.03);
+  }
+  var S = {
+    hover: function () { tone(1500, 1900, 0.05, "sine", 0.02); },
+    card: function () { tone(220, 440, 0.2, "sine", 0.03); },
+    click: function () { tone(620, 300, 0.1, "triangle", 0.05); },
+    like: function () { tone(660, 0, 0.16, "sine", 0.06); tone(990, 0, 0.24, "sine", 0.05, 0.07); tone(1320, 0, 0.32, "sine", 0.035, 0.14); },
+    unlike: function () { tone(520, 300, 0.18, "sine", 0.05); },
+    on: function () { tone(440, 0, 0.12, "sine", 0.05); tone(660, 0, 0.2, "sine", 0.05, 0.08); }
+  };
+  var sndBtn = document.getElementById("snd"), sndT = document.getElementById("sndT");
+  function paintSnd() { sndBtn.setAttribute("aria-pressed", sfx.on ? "true" : "false"); sndT.textContent = sfx.on ? "Sound on" : "Sound off"; }
+  paintSnd();
+  sndBtn.addEventListener("click", function () {
+    sfx.on = !sfx.on;
+    try { localStorage.setItem("hyg-sfx", sfx.on ? "1" : "0"); } catch (e) {}
+    paintSnd();
+    if (sfx.on) S.on();
+  });
+  var lastHover = null;
+  document.addEventListener("pointerover", function (e) {
+    var t = e.target.closest ? e.target.closest("a, button, .card") : null;
+    if (t && t !== lastHover && !t.closest("#snd")) { lastHover = t; if (t.classList.contains("card")) S.card(); else S.hover(); }
+    if (!t) lastHover = null;
+  });
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest ? e.target.closest("a, button, .card") : null;
+    if (t && !t.closest("#snd") && !t.classList.contains("like")) S.click();
+  });
+
+  /* ---- hero name: split into letters, fit to one line ---- */
+  var nameEl = document.getElementById("name");
+  var txt = nameEl.textContent;
+  nameEl.textContent = "";
+  txt.split("").forEach(function (c, i) {
+    var s = document.createElement("span");
+    s.className = "ch"; s.style.setProperty("--i", i);
+    s.setAttribute("aria-hidden", "true"); s.textContent = c;
+    nameEl.appendChild(s);
+  });
+  var heroBox = document.getElementById("top");
+  var chs = nameEl.querySelectorAll(".ch");
+  function fit() {
+    nameEl.style.fontSize = "100px";
+    var w = nameEl.scrollWidth || 1;
+    var size = Math.min(240, (100 * heroBox.clientWidth / w) * 0.99);
+    nameEl.style.fontSize = size + "px";
+    nameEl.style.setProperty("--W", nameEl.scrollWidth + "px");
+    chs.forEach(function (c) { c.style.setProperty("--x", c.offsetLeft + "px"); });
+  }
+  fit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  window.addEventListener("resize", fit);
+
+  /* ---- pointer light on the grid ---- */
+  var root = document.documentElement, raf = 0, mx = 0, my = 0;
+  if (window.matchMedia("(pointer: fine)").matches && !reduce) {
+    window.addEventListener("pointermove", function (e) {
+      mx = e.clientX; my = e.clientY;
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        raf = 0;
+        root.style.setProperty("--px", mx + "px");
+        root.style.setProperty("--py", my + "px");
+      });
+    }, { passive: true });
+  }
+
+  /* ---- Poland time widget ---- */
+  var TZ = "Europe/Warsaw";
+  var ticks = document.getElementById("ticks");
+  var NS = "http://www.w3.org/2000/svg";
+  for (var i = 0; i < 12; i++) {
+    var ln = document.createElementNS(NS, "line"), a = i * Math.PI / 6, q = i % 3 === 0;
+    ln.setAttribute("x1", 50 + Math.sin(a) * (q ? 38 : 41)); ln.setAttribute("y1", 50 - Math.cos(a) * (q ? 38 : 41));
+    ln.setAttribute("x2", 50 + Math.sin(a) * 44); ln.setAttribute("y2", 50 - Math.cos(a) * 44);
+    ln.setAttribute("class", q ? "tick q" : "tick");
+    ticks.appendChild(ln);
+  }
+  var digitsEl = document.getElementById("digits"), dateEl = document.getElementById("date"), zoneEl = document.getElementById("zone");
+  var hH = document.getElementById("hH"), hM = document.getElementById("hM"), hS = document.getElementById("hS");
+  var dtf, dateF, offF;
+  try {
+    dtf = new Intl.DateTimeFormat("en-GB", { timeZone: TZ, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+    dateF = new Intl.DateTimeFormat("en-GB", { timeZone: TZ, weekday: "long", day: "numeric", month: "long" });
+    offF = new Intl.DateTimeFormat("en-US", { timeZone: TZ, timeZoneName: "shortOffset" });
+  } catch (e) {}
+  var cache = { h: 0, m: 0, s: 0, t: Date.now() }, lastS = -1;
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function refresh() {
+    if (!dtf) return;
+    var o = {};
+    dtf.formatToParts(new Date()).forEach(function (p) { o[p.type] = p.value; });
+    cache = { h: (+o.hour) % 24, m: +o.minute, s: +o.second, t: Date.now() };
+    if (cache.s !== lastS) {
+      lastS = cache.s;
+      digitsEl.textContent = pad(cache.h) + ":" + pad(cache.m) + ":" + pad(cache.s);
+      if (lastS === 0 || !dateEl.dataset.set) {
+        dateEl.textContent = dateF.format(new Date()); dateEl.dataset.set = "1";
+        var off = ""; offF.formatToParts(new Date()).forEach(function (p) { if (p.type === "timeZoneName") off = p.value; });
+        zoneEl.textContent = "Warsaw · " + (off || "GMT+1");
+      }
+    }
+  }
+  function hands() {
+    var sec = cache.s + (reduce ? 0 : Math.min(0.999, (Date.now() - cache.t) / 1000));
+    var min = cache.m + sec / 60, hr = (cache.h % 12) + min / 60;
+    hS.setAttribute("transform", "rotate(" + (sec * 6) + " 50 50)");
+    hM.setAttribute("transform", "rotate(" + (min * 6) + " 50 50)");
+    hH.setAttribute("transform", "rotate(" + (hr * 30) + " 50 50)");
+  }
+  refresh(); hands();
+  setInterval(function () { refresh(); if (reduce) hands(); }, 250);
+  if (!reduce) (function loop() { hands(); requestAnimationFrame(loop); })();
+
+  /* ---- motion loop: cursor ring, name tilt, magnetic buttons, work cards, marquee speed ---- */
+  if (!reduce) {
+    var fine = window.matchMedia("(pointer: fine)").matches;
+    var track = document.querySelector(".marquee .track");
+    var lastY = window.scrollY, vel = 0;
+    var ring, dot, cx = -100, cy = -100, tx = -100, ty = -100;
+    var nrx = 0, nry = 0, ntx = 0, nty = 0;
+    var cards = [];
+    if (fine) {
+      ring = document.createElement("div"); ring.className = "cur";
+      dot = document.createElement("div"); dot.className = "cur-dot";
+      document.body.appendChild(ring); document.body.appendChild(dot);
+      window.addEventListener("pointermove", function (e) {
+        tx = e.clientX; ty = e.clientY;
+        dot.style.transform = "translate(" + tx + "px," + ty + "px)";
+        ntx = (e.clientY / window.innerHeight - 0.5) * -5;
+        nty = (e.clientX / window.innerWidth - 0.5) * 7;
+      }, { passive: true });
+      document.addEventListener("pointerover", function (e) {
+        ring.classList.toggle("hot", !!(e.target.closest && e.target.closest("a, button, .card")));
+      });
+      document.querySelectorAll(".btn").forEach(function (b) {
+        b.addEventListener("pointermove", function (e) {
+          var r = b.getBoundingClientRect();
+          b.style.translate = ((e.clientX - r.left - r.width / 2) * 0.22) + "px " + ((e.clientY - r.top - r.height / 2) * 0.3) + "px";
+        });
+        b.addEventListener("pointerleave", function () { b.style.translate = "0 0"; });
+      });
+      document.querySelectorAll(".card").forEach(function (el) {
+        var s = { el: el, px: 0, py: 0, mx: 0, my: 0, trx: 0, tryy: 0, rx: 0, ry: 0 };
+        el.addEventListener("pointerenter", function (e) {
+          var r = el.getBoundingClientRect();
+          s.mx = s.px = e.clientX - r.left; s.my = s.py = e.clientY - r.top;
+        });
+        el.addEventListener("pointermove", function (e) {
+          var r = el.getBoundingClientRect();
+          s.px = e.clientX - r.left; s.py = e.clientY - r.top;
+          s.trx = ((s.py / r.height) - 0.5) * -5;
+          s.tryy = ((s.px / r.width) - 0.5) * 7;
+        });
+        el.addEventListener("pointerleave", function () { s.trx = 0; s.tryy = 0; });
+        cards.push(s);
+      });
+    }
+    (function tick() {
+      var y = window.scrollY, dv = Math.abs(y - lastY); lastY = y;
+      vel += (dv - vel) * 0.12;
+      if (track && track.getAnimations) {
+        var a = track.getAnimations()[0];
+        if (a) a.playbackRate = 1 + Math.min(9, vel * 0.4);
+      }
+      if (fine) {
+        cx += (tx - cx) * 0.17; cy += (ty - cy) * 0.17;
+        ring.style.transform = "translate(" + cx + "px," + cy + "px)";
+        nrx += (ntx - nrx) * 0.06; nry += (nty - nry) * 0.06;
+        nameEl.style.transform = "perspective(1400px) rotateX(" + nrx.toFixed(2) + "deg) rotateY(" + nry.toFixed(2) + "deg)";
+        cards.forEach(function (s) {
+          s.mx += (s.px - s.mx) * 0.14; s.my += (s.py - s.my) * 0.14;
+          s.rx += (s.trx - s.rx) * 0.09; s.ry += (s.tryy - s.ry) * 0.09;
+          var st = s.el.style;
+          st.setProperty("--mx", s.mx.toFixed(1) + "px"); st.setProperty("--my", s.my.toFixed(1) + "px");
+          st.setProperty("--rx", s.rx.toFixed(2) + "deg"); st.setProperty("--ry", s.ry.toFixed(2) + "deg");
+        });
+      }
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  /* ---- contact ---- */
+  function fillContact(id, value, emptyText) {
+    var el = document.getElementById(id);
+    el.textContent = "";
+    if (!value) { el.className = "v empty"; el.textContent = emptyText; return; }
+    var t = document.createElement("span");
+    t.textContent = value;
+    var b = document.createElement("button");
+    b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+    function sel(node) { var r = document.createRange(); r.selectNodeContents(node); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    b.addEventListener("click", function () {
+      function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1400); }
+      try { navigator.clipboard.writeText(value).then(done, function () { sel(t); }); } catch (e) { sel(t); }
+    });
+    el.appendChild(t); el.appendChild(b);
+  }
+  fillContact("vDiscord", CONTACT.discord, "Username coming soon");
+  fillContact("vEmail", CONTACT.email, "Address coming soon");
+
+  /* ---- likes ---- */
+  var buttons = Array.prototype.slice.call(document.querySelectorAll(".like"));
+  var remote = 0, mine = false, localLiked = false, shown = BASE, tween = 0, busy = false;
+  var db = null, uid = null;
+  try { localLiked = localStorage.getItem("hyg-liked") === "1"; } catch (e) {}
+  function total() { return BASE + remote + (localLiked && !mine ? 1 : 0); }
+  function liked() { return mine || localLiked; }
+  function paint(n) {
+    buttons.forEach(function (b) {
+      b.querySelector(".n").textContent = n;
+      b.setAttribute("aria-pressed", liked() ? "true" : "false");
+    });
+  }
+  function render() {
+    var target = total();
+    cancelAnimationFrame(tween);
+    if (reduce || target === shown) { shown = target; paint(shown); return; }
+    var from = shown, t0 = performance.now(), d = 500;
+    (function step(now) {
+      var p = Math.min(1, (now - t0) / d), e = 1 - Math.pow(1 - p, 3);
+      shown = Math.round(from + (target - from) * e);
+      paint(shown);
+      if (p < 1) tween = requestAnimationFrame(step); else { shown = target; paint(shown); }
+    })(t0);
+  }
+  paint(shown);
+  function burst(btn) {
+    if (reduce || !btn.animate) return;
+    for (var i = 0; i < 10; i++) {
+      var s = document.createElement("i");
+      s.className = "spark"; btn.appendChild(s);
+      var a = (Math.PI * 2 * i) / 10 + Math.random() * 0.4, d = 34 + Math.random() * 26;
+      var an = s.animate([
+        { transform: "translate(0,-50%) scale(1)", opacity: 1 },
+        { transform: "translate(" + Math.cos(a) * d + "px," + (Math.sin(a) * d - 8) + "px) scale(0)", opacity: 0 }
+      ], { duration: 650 + Math.random() * 250, easing: "cubic-bezier(0.16,1,0.3,1)" });
+      an.onfinish = (function (n) { return function () { n.remove(); }; })(s);
+    }
+  }
+  function saveLocal(v) { localLiked = v; try { localStorage.setItem("hyg-liked", v ? "1" : "0"); } catch (e) {} }
+  async function toggle(btn) {
+    if (busy) return;
+    busy = true;
+    var willLike = !liked();
+    try {
+      if (willLike) {
+        if (db && uid) {
+          try { await db.collection("likes").doc(uid).set({ at: Date.now() }); }
+          catch (e) { saveLocal(true); }
+        } else { saveLocal(true); }
+      } else {
+        if (localLiked) saveLocal(false);
+        if (mine && db && uid) { try { await db.collection("likes").doc(uid).delete(); } catch (e) {} }
+      }
+    } finally { busy = false; }
+    if (willLike) { burst(btn); S.like(); } else { S.unlike(); }
+    render();
+  }
+  buttons.forEach(function (b) { b.addEventListener("click", function () { toggle(b); }); });
+
+  /* shared counter: one document per person, so nobody can like twice */
+  (async function () {
+    try {
+      if (!window.claude || !window.claude.use) return;
+      var user = await window.claude.use("user");
+      db = await window.claude.use("db");
+      uid = user ? await user.id() : null;
+      if (!db) return;
+      db.collection("likes").onSnapshot(function (snap) {
+        remote = snap.size;
+        mine = !!uid && snap.docs.some(function (d) { return d.id === uid; });
+        if (mine && localLiked) saveLocal(false);
+        render();
+      }, function () {});
+    } catch (e) {}
+  })();
+})();
+</script>
+
+</body></html>
