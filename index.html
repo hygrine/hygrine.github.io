@@ -31,7 +31,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 body {
   margin: 0;
   background: var(--bg);
@@ -85,12 +85,16 @@ a { color: inherit; }
 /* ---------- atmosphere ---------- */
 .atmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .blob { position: absolute; border-radius: 50%; filter: blur(120px); will-change: transform; }
-.blob.a { width: 46vmax; height: 46vmax; left: -16vmax; top: -22vmax; background: radial-gradient(circle, #a82234 0%, var(--red-deep) 52%, transparent 72%); opacity: 0.3; animation: drift-a 28s ease-in-out infinite alternate; }
-.blob.b { width: 40vmax; height: 40vmax; right: -18vmax; top: 30vh; background: radial-gradient(circle, #7d1626 0%, #26060e 58%, transparent 74%); opacity: 0.2; animation: drift-b 34s ease-in-out infinite alternate; }
-.blob.c { width: 34vmax; height: 34vmax; left: 20vw; bottom: -22vmax; background: radial-gradient(circle, #3d0f18, transparent 70%); opacity: 0.22; animation: drift-a 40s ease-in-out infinite alternate-reverse; }
-.blob.d { width: 38vmax; height: 38vmax; right: 4vw; top: -20vmax; background: radial-gradient(circle, #1c2433, transparent 70%); opacity: 0.55; animation: drift-b 46s ease-in-out infinite alternate-reverse; }
-@keyframes drift-a { to { transform: translate3d(10vmax, 8vmax, 0) scale(1.12); } }
-@keyframes drift-b { to { transform: translate3d(-12vmax, -6vmax, 0) scale(0.92); } }
+.blob.a { width: 46vmax; height: 46vmax; left: -16vmax; top: -22vmax; background: radial-gradient(circle, #a82234 0%, var(--red-deep) 52%, transparent 72%); opacity: 0.4; animation: drift-a 18s ease-in-out infinite alternate; }
+.blob.b { width: 40vmax; height: 40vmax; right: -18vmax; top: 30vh; background: radial-gradient(circle, #7d1626 0%, #26060e 58%, transparent 74%); opacity: 0.3; animation: drift-b 22s ease-in-out infinite alternate; }
+.blob.c { width: 34vmax; height: 34vmax; left: 20vw; bottom: -22vmax; background: radial-gradient(circle, #3d0f18, transparent 70%); opacity: 0.22; animation: drift-a 26s ease-in-out infinite alternate-reverse; }
+.blob.d { width: 38vmax; height: 38vmax; right: 4vw; top: -20vmax; background: radial-gradient(circle, #1c2433, transparent 70%); opacity: 0.55; animation: drift-b 30s ease-in-out infinite alternate-reverse; }
+
+.atmos::before { content: ""; position: absolute; inset: -35%; background: conic-gradient(from 0deg at 50% 50%, rgba(168, 34, 52, 0) 0deg, rgba(168, 34, 52, 0.34) 70deg, rgba(28, 36, 54, 0) 130deg, rgba(92, 13, 25, 0.3) 200deg, rgba(28, 36, 54, 0.32) 260deg, rgba(168, 34, 52, 0) 330deg); filter: blur(90px); animation: swirl 42s linear infinite; will-change: transform; }
+@keyframes swirl { to { transform: rotate(360deg); } }
+@keyframes drift-a { 0% { transform: translate3d(0, 0, 0) scale(1); } 33% { transform: translate3d(18vmax, 6vmax, 0) scale(1.18); } 66% { transform: translate3d(6vmax, 20vmax, 0) scale(0.95); } 100% { transform: translate3d(22vmax, 12vmax, 0) scale(1.1); } }
+@keyframes drift-b { 0% { transform: translate3d(0, 0, 0) scale(1); } 33% { transform: translate3d(-16vmax, -10vmax, 0) scale(0.9); } 66% { transform: translate3d(-4vmax, 14vmax, 0) scale(1.15); } 100% { transform: translate3d(-20vmax, 4vmax, 0) scale(1); } }
+
 .grid {
   position: absolute;
   inset: 0;
@@ -354,10 +358,34 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .cl:hover { border-color: var(--red); background: rgba(224, 56, 76, 0.1); }
 .cl svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
+
+/* bot systems slider */
+.slides { position: relative; width: 100%; height: 100%; min-height: 0; }
+.slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transform: translateX(46px) scale(0.96); filter: blur(8px); transition: opacity 0.7s var(--ease), transform 1s var(--ease), filter 0.7s var(--ease), visibility 0s linear 1s; }
+.slide.before { transform: translateX(-46px) scale(0.96); }
+.slide.on { opacity: 1; visibility: visible; transform: none; filter: none; transition: opacity 0.7s var(--ease), transform 1s var(--ease), filter 0.7s var(--ease), visibility 0s; }
+.slide .shot { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: auto; height: auto; max-width: 100%; max-height: 100%; }
+.bots { display: grid; }
+.bots > .bot { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(14px); filter: blur(6px); transition: opacity 0.5s var(--ease), transform 0.8s var(--ease), filter 0.5s, visibility 0s linear 0.5s; }
+.bots > .bot.on { opacity: 1; visibility: visible; transform: none; filter: none; transition: opacity 0.6s var(--ease) 0.15s, transform 0.9s var(--ease) 0.15s, filter 0.6s 0.15s, visibility 0s; }
+.dots { display: inline-flex; gap: 6px; padding: 6px 8px; border-radius: 999px; border: 1px solid var(--line); background: rgba(8, 9, 11, 0.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); pointer-events: auto; }
+.dot { width: 18px; height: 18px; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
+.dot::before { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 99px; background: var(--ink-faint); transition: width 0.5s var(--ease), margin 0.5s var(--ease), background 0.3s; }
+.dot.on::before { width: 18px; margin-left: -9px; background: var(--red); }
+
 /* work art: logo tile */
 .logo-tile { width: min(100%, 560px); padding: 22px 28px; border-radius: 16px; background: var(--tile); box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.9); animation: float 7s ease-in-out infinite; }
 .logo-tile img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 @keyframes float { 50% { transform: translateY(-7px); } }
+.logos { display: grid; justify-items: center; gap: 12px; width: 100%; }
+.logos .logo-tile { width: min(100%, 400px); padding: 16px 22px; translate: -26px 0; rotate: -1.2deg; transition: translate 0.9s var(--ease), rotate 0.9s var(--ease); }
+.logos .logo-tile.alt { padding: 0; overflow: hidden; background: #000; box-shadow: 0 24px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08); translate: 26px 0; rotate: 1.4deg; animation-delay: -3.5s; }
+.logos .logo-tile.alt img { mix-blend-mode: normal; }
+.card:hover .logos .logo-tile, .card:focus-within .logos .logo-tile, .card.open .logos .logo-tile { translate: 0 0; rotate: 0deg; }
+@media (max-width: 860px) {
+  .logos .logo-tile { width: min(84%, 300px); translate: -14px 0; }
+  .logos .logo-tile.alt { translate: 14px 0; }
+}
 /* work art: motion loops */
 .lab { display: flex; align-items: center; justify-content: center; gap: clamp(22px, 4vw, 48px); height: 110px; }
 .sh { width: 46px; height: 46px; background: var(--ink); }
@@ -407,6 +435,12 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .chan .k { display: block; }
 .chan .v { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; letter-spacing: -0.02em; overflow-wrap: anywhere; user-select: all; }
 .chan .v.empty { color: var(--ink-dim); font-family: var(--font-body); font-weight: 400; font-size: 1rem; user-select: auto; }
+.chan.banner { position: relative; overflow: hidden; isolation: isolate; }
+.chan.banner::before { content: ""; position: absolute; inset: 0; z-index: -2; background: url("img/banner.webp") center / cover no-repeat; opacity: 0.6; transition: opacity 0.6s var(--ease), transform 1.6s var(--ease); }
+.chan.banner::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(8, 9, 11, 0.3), rgba(8, 9, 11, 0) 70%); }
+.chan.banner:hover::before { opacity: 0.78; transform: scale(1.05); }
+.chan.banner .k, .chan.banner .v { text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75); }
+.chan.banner .k { color: var(--ink-dim); }
 .copy { flex: none; appearance: none; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-dim); border-radius: 999px; padding: 6px 12px; font: 500 0.66rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: color 0.25s, border-color 0.25s; }
 .copy:hover { color: var(--ink); border-color: var(--red); }
 
@@ -424,6 +458,7 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
   .widgets { grid-template-columns: minmax(0, 1fr); }
   .card, .card:nth-child(n) { grid-column: span 12; min-height: 420px; }
   .card:nth-child(4) { min-height: 470px; }
+  .card:nth-child(1) { min-height: 510px; }
   .media { inset: 56px 16px 148px; }
 }
 @media (max-width: 700px) {
@@ -436,12 +471,14 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
   .logo span { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .atmos::before, .blob { animation: none !important; }
   :root { --intro: 0s; }
   html { scroll-behavior: auto; }
   .intro { display: none; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .marquee .track { animation: none; }
   .noise { display: none; }
+  .chan.banner::before { background-image: url("img/banner-still.jpg"); }
 }
 </style>
 
@@ -558,13 +595,13 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
     <div class="work">
       <article class="card rv" tabindex="0">
         <div class="art"></div>
-        <div class="media"><div class="logo-tile"><img src="img/logo.jpg" width="1600" height="389" alt="Hygrine logo"></div></div>
+        <div class="media"><div class="logos"><div class="logo-tile"><img src="img/logo.jpg" width="1600" height="389" alt="Hygrine logo"></div><div class="logo-tile alt"><img src="img/logo2b.jpg" width="1200" height="334" alt="Second logo design: a teal wolf head with a .wtf wordmark"></div></div></div>
         <div class="meta">
           <span class="tag">Logos</span>
           <div class="bot">
             <h3>Logo design</h3>
             <div class="sw">
-              <p class="def">The Hygrine wordmark.</p>
+              <p class="def">Logo designs. All my designs are on Cara.</p>
               <a class="alt cl" href="https://cara.app/hygrine" target="_blank" rel="noopener noreferrer">cara.app/hygrine <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
             </div>
           </div>
@@ -608,16 +645,30 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
         </div>
       </article>
 
-      <article class="card rv" tabindex="0">
+      <article class="card rv" tabindex="0" id="botCard">
         <div class="art"></div>
-        <div class="media"><img class="shot" src="img/verification.jpg" width="621" height="411" alt="Discord verification message in Polish: Zweryfikuj sie, with a dropdown to pick the HEX code"></div>
+        <div class="media">
+          <div class="slides">
+            <div class="slide on"><img class="shot" src="img/verification.jpg" width="621" height="411" alt="Discord verification message in Polish: Zweryfikuj sie, with a dropdown to pick the HEX code"></div>
+            <div class="slide"><img class="shot" src="img/tickets.jpg" width="1410" height="738" alt="Discord ticket logs: a Ticket closed message with a downloadable HTML transcript, and a New ticket panel created message"></div>
+          </div>
+        </div>
         <div class="meta">
-          <span class="tag">Discord bot</span>
-          <div class="bot">
-            <h3>Verification system</h3>
-            <div class="sw">
-              <p class="def">A Polish-language server verification flow.</p>
-              <p class="alt">A verification command that rolls a random HEX code. You have to choose it from the list.</p>
+          <div class="meta-top"><span class="tag">Discord bot</span><span class="dots" role="group" aria-label="Bot systems"><button class="dot on" type="button" aria-label="Verification system"></button><button class="dot" type="button" aria-label="Ticket system"></button></span></div>
+          <div class="bots">
+            <div class="bot on">
+              <h3>Verification system</h3>
+              <div class="sw">
+                <p class="def">A Polish-language server verification flow.</p>
+                <p class="alt">A verification command that rolls a random HEX code. You have to choose it from the list.</p>
+              </div>
+            </div>
+            <div class="bot">
+              <h3>Ticket system</h3>
+              <div class="sw">
+                <p class="def">Ticket panels, logs and transcripts.</p>
+                <p class="alt">Private tickets from a panel. Closing one posts a log and a downloadable HTML transcript.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -630,7 +681,7 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
       <h2>Have a project in mind?</h2>
       <p>DM me on Discord or write via email with the details and I will get back to you.</p>
       <div class="channels">
-        <div class="chan"><span class="k">Discord</span><div class="v" id="vDiscord"></div></div>
+        <div class="chan banner"><span class="k">Discord</span><div class="v" id="vDiscord"></div></div>
         <div class="chan"><span class="k">Email</span><div class="v" id="vEmail"></div></div>
       </div>
     </div>
@@ -718,8 +769,34 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
   };
 
   /* browsers only allow sound after the first tap or key press */
-  ["pointerdown", "keydown", "touchstart"].forEach(function (ev) {
-    window.addEventListener(ev, function () { audio(); }, { once: true, passive: true });
+  /* phones are stricter: unlock on touchend/click, keep trying until running,
+     and play a silent <audio> so iOS plays sound even with the silent switch on */
+  var silentEl = null;
+  function silentUrl() {
+    var n = 800, sr = 8000, b = new ArrayBuffer(44 + n * 2), v = new DataView(b);
+    function w(o, t) { for (var i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); }
+    w(0, "RIFF"); v.setUint32(4, 36 + n * 2, true); w(8, "WAVEfmt "); v.setUint32(16, 16, true);
+    v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true);
+    v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, n * 2, true);
+    return URL.createObjectURL(new Blob([b], { type: "audio/wav" }));
+  }
+  var unlockEv = ["pointerup", "touchend", "click", "keydown", "mousedown"];
+  function unlock() {
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+    var c = audio();
+    if (!c) return;
+    try { var bf = c.createBuffer(1, 1, 22050), src = c.createBufferSource(); src.buffer = bf; src.connect(c.destination); src.start(0); } catch (e) {}
+    try {
+      if (!silentEl) { silentEl = document.createElement("audio"); silentEl.setAttribute("playsinline", ""); silentEl.loop = true; silentEl.src = silentUrl(); }
+      var pr = silentEl.play(); if (pr && pr.catch) pr.catch(function () {});
+    } catch (e) {}
+    setTimeout(function () {
+      if (actx && actx.state === "running") unlockEv.forEach(function (ev) { window.removeEventListener(ev, unlock, true); });
+    }, 120);
+  }
+  unlockEv.forEach(function (ev) { window.addEventListener(ev, unlock, { capture: true, passive: true }); });
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden && actx && actx.state !== "running") { try { actx.resume().catch(function () {}); } catch (e) {} }
   });
   if (!reduce && navigator.userActivation && navigator.userActivation.hasBeenActive) {
     audio();
@@ -878,6 +955,56 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
     ["top", "about", "work", "contact"].forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
   }
 
+  /* page bottom always means "Contact" (the last section may never reach the trigger line) */
+  window.addEventListener("scroll", function () {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6) setActive("contact");
+  }, { passive: true });
+
+  /* nav + in-page anchors: one eased scroll that works on every browser and phone */
+  var navTween = 0;
+  function cancelTween() { if (navTween) { cancelAnimationFrame(navTween); navTween = 0; } }
+  ["wheel", "touchstart", "keydown"].forEach(function (ev) { window.addEventListener(ev, cancelTween, { passive: true }); });
+  function absTop(el) { var y = 0; while (el) { y += el.offsetTop; el = el.offsetParent; } return y; }
+  function goTo(yOrFn, done) {
+    cancelTween();
+    var get = typeof yOrFn === "function" ? yOrFn : function () { return yOrFn; };
+    function clampY(v) { return Math.max(0, Math.min(document.documentElement.scrollHeight - window.innerHeight, v)); }
+    var start = window.scrollY, first = clampY(get()), dist0 = first - start;
+    if (reduce || Math.abs(dist0) < 2) { window.scrollTo(0, first); if (done) done(); return; }
+    var dur = Math.min(1400, 700 + Math.abs(dist0) * 0.16), t0 = performance.now();
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function tick(now) {
+      var k = Math.min(1, (now - t0) / dur), end = clampY(get());   /* target re-measured every frame, so layout shifts cannot misplace it */
+      window.scrollTo({ top: start + (end - start) * ease(k), left: 0, behavior: "instant" });
+      if (k < 1) navTween = requestAnimationFrame(tick); else { navTween = 0; if (done) done(); }
+    }
+    navTween = requestAnimationFrame(tick);
+  }
+  /* keyboard scrolling glides too */
+  window.addEventListener("keydown", function (e) {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    var t = e.target, tn = t && t.tagName;
+    if (tn === "INPUT" || tn === "TEXTAREA" || tn === "SELECT" || (t && t.isContentEditable)) return;
+    if ((tn === "BUTTON" || tn === "A") && (e.key === " " || e.key === "Enter")) return;
+    var h = window.innerHeight, y = window.scrollY, to = null;
+    if (e.key === "PageDown" || (e.key === " " && !e.shiftKey)) to = y + h * 0.88;
+    else if (e.key === "PageUp" || (e.key === " " && e.shiftKey)) to = y - h * 0.88;
+    else if (e.key === "ArrowDown") to = y + 110;
+    else if (e.key === "ArrowUp") to = y - 110;
+    else if (e.key === "Home") to = 0;
+    else if (e.key === "End") to = 1e9;
+    if (to === null) return;
+    e.preventDefault(); goTo(to);
+  });
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var id = a.getAttribute("href").slice(1), el = id && id !== "top" ? document.getElementById(id) : null;
+    if (id && id !== "top" && !el) return;
+    e.preventDefault();
+    goTo(el ? function () { return absTop(el) - 64; } : 0, function () { try { history.replaceState(null, "", id ? "#" + id : location.pathname); } catch (x) {} });
+  });
+
   /* ================= pointer effects ================= */
   var cardEls = Array.prototype.slice.call(document.querySelectorAll(".card"));
   if (window.matchMedia("(hover: none)").matches) {
@@ -969,6 +1096,66 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
       requestAnimationFrame(tick);
     })();
   }
+
+  /* ================= smooth scroll (mouse wheel) ================= */
+  (function () {
+    if (reduce) return;
+    var de = document.documentElement, target = 0, current = 0, running = false;
+    function maxY() { return de.scrollHeight - window.innerHeight; }
+    var lastSet = 0;
+    function step() {
+      /* moved by an anchor link, a key or the scrollbar: hand control back */
+      if (Math.abs(window.scrollY - lastSet) > 3) { running = false; return; }
+      var diff = target - current;
+      if (Math.abs(diff) < 0.4) { current = target; running = false; }
+      else current += diff * 0.11;
+      window.scrollTo({ top: current, left: 0, behavior: "instant" });
+      lastSet = window.scrollY;
+      if (running) requestAnimationFrame(step);
+    }
+    window.addEventListener("wheel", function (e) {
+      if (e.ctrlKey || e.defaultPrevented) return;
+      var m = maxY();
+      if (m <= 0) return;
+      e.preventDefault();
+      var dy = e.deltaMode === 1 ? e.deltaY * 34 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+      if (!running) { target = current = lastSet = window.scrollY; running = true; requestAnimationFrame(step); }
+      target = Math.max(0, Math.min(m, target + dy));
+    }, { passive: false });
+  })();
+
+  /* ================= bot systems slider ================= */
+  (function () {
+    var card = document.getElementById("botCard");
+    if (!card) return;
+    var slides = card.querySelectorAll(".slide"), texts = card.querySelectorAll(".bots > .bot"), dots = card.querySelectorAll(".dot");
+    var cur = 0, timer = 0, vis = false, hold = false;
+    function show(n) {
+      n = (n + slides.length) % slides.length;
+      if (n === cur) return;
+      cur = n;
+      Array.prototype.forEach.call(slides, function (el, k) { el.classList.toggle("on", k === n); el.classList.toggle("before", k < n); });
+      Array.prototype.forEach.call(texts, function (el, k) { el.classList.toggle("on", k === n); });
+      Array.prototype.forEach.call(dots, function (el, k) { el.classList.toggle("on", k === n); });
+      sfx.section();
+    }
+    function arm() { clearInterval(timer); if (!reduce) timer = setInterval(function () { if (vis && !hold && !document.hidden) show(cur + 1); }, 5200); }
+    Array.prototype.forEach.call(dots, function (d, k) { d.addEventListener("click", function (e) { e.stopPropagation(); show(k); arm(); }); });
+    card.addEventListener("mouseenter", function () { hold = true; });
+    card.addEventListener("mouseleave", function () { hold = false; });
+    card.addEventListener("focusin", function () { hold = true; });
+    card.addEventListener("focusout", function () { hold = false; });
+    var sx = 0, sy = 0;
+    card.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    card.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.4) { show(cur + (dx < 0 ? 1 : -1)); arm(); }
+    }, { passive: true });
+    card.addEventListener("keydown", function (e) { if (e.key === "ArrowRight") { show(cur + 1); arm(); } else if (e.key === "ArrowLeft") { show(cur - 1); arm(); } });
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { vis = es[0].isIntersecting; }, { threshold: 0.4 }).observe(card);
+    else vis = true;
+    arm();
+  })();
 
   /* ================= contact ================= */
   function fillContact(id, value, emptyText) {
