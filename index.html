@@ -15,9 +15,9 @@
   --ink-faint: #666b73;
   --line: rgba(255, 255, 255, 0.07);
   --line-strong: rgba(255, 255, 255, 0.14);
-  --red: #df2020;
-  --red-deep: #5c0d19;
-  --red-glow: rgba(224, 56, 76, 0.28);
+  --red: #e21c28;
+  --red-deep: #5a0a12;
+  --red-glow: rgba(226, 28, 40, 0.28);
   --glass: rgba(16, 17, 20, 0.58);
   --tile: #ecebe8;
   --font-display: "Syne", "Helvetica Neue", Arial, sans-serif;
@@ -93,17 +93,21 @@ html.wait .intro, html.wait .intro .panel, html.wait .intro .seam, html.wait .in
 @keyframes enter-line { to { transform: translateX(-50%) scaleX(1); } }
 .intro:hover .enter { color: var(--ink); }
 @keyframes nudge { 50% { opacity: 0.55; } }
+.song { position: absolute; left: 0; right: 0; bottom: max(26px, env(safe-area-inset-bottom)); z-index: 4; display: flex; justify-content: center; align-items: center; gap: 10px; padding: 0 16px; text-align: center; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-dim); pointer-events: none; animation: fade-up 1.2s var(--ease) 2.2s backwards; transition: opacity 0.35s, transform 0.5s var(--ease); }
+.song i { width: 5px; height: 5px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px 1px var(--red-glow); animation: pulse 2.6s ease-in-out infinite; flex: none; }
+.song b { font-weight: 500; color: var(--ink); }
+html:not(.wait) .song { opacity: 0; transform: translateY(8px); animation: none; }
 html:not(.wait) .enter { opacity: 0; transform: translateY(8px); animation: none; pointer-events: none; }
 
 /* ---------- atmosphere ---------- */
 .atmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .blob { position: absolute; border-radius: 50%; will-change: transform; }
-.blob.a { width: 46vmax; height: 46vmax; left: -16vmax; top: -22vmax; background: radial-gradient(circle, #a82234 0%, var(--red-deep) 52%, transparent 72%); opacity: 0.19; animation: drift-a 18s ease-in-out infinite alternate; }
+.blob.a { width: 46vmax; height: 46vmax; left: -16vmax; top: -22vmax; background: radial-gradient(circle, #aa121c 0%, var(--red-deep) 52%, transparent 72%); opacity: 0.19; animation: drift-a 18s ease-in-out infinite alternate; }
 .blob.b { width: 40vmax; height: 40vmax; right: -18vmax; top: 30vh; background: radial-gradient(circle, #7d1626 0%, #26060e 58%, transparent 74%); opacity: 0.12; animation: drift-b 22s ease-in-out infinite alternate; }
 .blob.c { width: 34vmax; height: 34vmax; left: 20vw; bottom: -22vmax; background: radial-gradient(circle, #3d0f18, transparent 70%); opacity: 0.1; animation: drift-a 26s ease-in-out infinite alternate-reverse; }
 .blob.d { width: 38vmax; height: 38vmax; right: 4vw; top: -20vmax; background: radial-gradient(circle, #120a0d, transparent 70%); opacity: 0.15; animation: drift-b 30s ease-in-out infinite alternate-reverse; }
 
-.atmos::before { content: ""; position: absolute; inset: -35%; background: conic-gradient(from 0deg at 50% 50%, rgba(168, 34, 52, 0) 0deg, rgba(168, 34, 52, 0.17) 70deg, rgba(40, 16, 22, 0) 130deg, rgba(92, 13, 25, 0.14) 200deg, rgba(40, 8, 14, 0.11) 260deg, rgba(168, 34, 52, 0) 330deg); animation: swirl 42s linear infinite; will-change: transform; }
+.atmos::before { content: ""; position: absolute; inset: -35%; background: conic-gradient(from 0deg at 50% 50%, rgba(170, 18, 28, 0) 0deg, rgba(170, 18, 28, 0.17) 70deg, rgba(40, 16, 22, 0) 130deg, rgba(92, 13, 25, 0.14) 200deg, rgba(40, 8, 14, 0.11) 260deg, rgba(170, 18, 28, 0) 330deg); animation: swirl 42s linear infinite; will-change: transform; }
 @keyframes swirl { to { transform: rotate(360deg); } }
 @keyframes drift-a { 0% { transform: translate3d(0, 0, 0) scale(1); } 33% { transform: translate3d(18vmax, 6vmax, 0) scale(1.18); } 66% { transform: translate3d(6vmax, 20vmax, 0) scale(0.95); } 100% { transform: translate3d(22vmax, 12vmax, 0) scale(1.1); } }
 @keyframes drift-b { 0% { transform: translate3d(0, 0, 0) scale(1); } 33% { transform: translate3d(-16vmax, -10vmax, 0) scale(0.9); } 66% { transform: translate3d(-4vmax, 14vmax, 0) scale(1.15); } 100% { transform: translate3d(-20vmax, 4vmax, 0) scale(1); } }
@@ -118,7 +122,7 @@ html:not(.wait) .enter { opacity: 0; transform: translateY(8px); animation: none
   -webkit-mask-image: radial-gradient(440px circle at var(--px) var(--py), #000 0%, rgba(0, 0, 0, 0.4) 45%, rgba(0, 0, 0, 0.08) 100%);
           mask-image: radial-gradient(440px circle at var(--px) var(--py), #000 0%, rgba(0, 0, 0, 0.4) 45%, rgba(0, 0, 0, 0.08) 100%);
 }
-.glow { position: absolute; inset: 0; background: radial-gradient(380px circle at var(--px) var(--py), rgba(224, 56, 76, 0.11), transparent 70%); }
+.glow { position: absolute; inset: 0; background: radial-gradient(380px circle at var(--px) var(--py), rgba(226, 28, 40, 0.11), transparent 70%); }
 .atmos::after { content: ""; position: absolute; inset: 0; opacity: 0.16; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); background-size: 220px 220px; }
 .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, transparent 28%, rgba(1, 1, 2, 0.96) 100%); }
 .noise {
@@ -191,7 +195,7 @@ nav.top.scrolled .links { gap: clamp(10px, 2vw, 20px); font-size: 0.68rem; }
 .links a:hover::after, .links a.on::after { transform: scaleX(1); }
 .snd { appearance: none; display: inline-flex; align-items: center; gap: 9px; height: 36px; padding: 0 14px 0 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(255, 255, 255, 0.03); color: var(--ink); font: 500 0.7rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: height 0.8s var(--ease), border-color 0.3s, color 0.3s, background 0.3s; }
 nav.top.scrolled .snd { height: 32px; }
-.snd:hover { border-color: var(--red); background: rgba(224, 56, 76, 0.08); }
+.snd:hover { border-color: var(--red); background: rgba(226, 28, 40, 0.08); }
 .snd[aria-pressed="false"] { color: var(--ink-faint); }
 .eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
 .eq i { width: 2px; height: 100%; border-radius: 2px; background: currentColor; transform-origin: bottom; animation: eq 1.1s ease-in-out infinite; animation-delay: calc(var(--n) * -0.23s); }
@@ -200,7 +204,7 @@ nav.top.scrolled .snd { height: 32px; }
 
 /* ---------- hero ---------- */
 .hero { position: relative; padding-block: clamp(48px, 9vw, 120px) clamp(48px, 7vw, 90px); }
-.hero::before { content: ""; position: absolute; left: -10%; top: 6%; width: 70%; height: 62%; background: radial-gradient(closest-side, rgba(224, 56, 76, 0.15), transparent); z-index: -1; pointer-events: none; animation: breathe 9s ease-in-out infinite alternate; }
+.hero::before { content: ""; position: absolute; left: -10%; top: 6%; width: 70%; height: 62%; background: radial-gradient(closest-side, rgba(226, 28, 40, 0.15), transparent); z-index: -1; pointer-events: none; animation: breathe 9s ease-in-out infinite alternate; }
 @keyframes breathe { to { transform: translate3d(14%, 6%, 0) scale(1.15); opacity: 0.7; } }
 .eyebrow { font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-dim); display: flex; align-items: center; gap: 12px; margin: 0 0 clamp(18px, 3vw, 34px); }
 .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--red); }
@@ -257,14 +261,14 @@ h1.name .ch {
   cursor: pointer;
   transition: border-color 0.3s, background 0.3s, box-shadow 0.4s, transform 0.4s var(--ease), translate 0.6s var(--ease);
 }
-.btn:hover { border-color: var(--red); background: rgba(224, 56, 76, 0.08); transform: translateY(-2px); }
+.btn:hover { border-color: var(--red); background: rgba(226, 28, 40, 0.08); transform: translateY(-2px); }
 .btn.solid { background: var(--ink); border-color: var(--ink); color: #0b0b0d; }
-.btn.solid:hover { background: #fff; box-shadow: 0 12px 40px -12px rgba(224, 56, 76, 0.55); }
+.btn.solid:hover { background: #fff; box-shadow: 0 12px 40px -12px rgba(226, 28, 40, 0.55); }
 
 /* ---------- like ---------- */
 .like { position: relative; padding-right: 20px; }
 .like svg { width: 18px; height: 18px; fill: transparent; stroke: currentColor; stroke-width: 1.8; transition: fill 0.35s, stroke 0.35s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.like[aria-pressed="true"] { border-color: var(--red); background: rgba(224, 56, 76, 0.12); }
+.like[aria-pressed="true"] { border-color: var(--red); background: rgba(226, 28, 40, 0.12); }
 .like[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); transform: scale(1.12); }
 .like .n { font-variant-numeric: tabular-nums; min-width: 2ch; text-align: right; font-size: 0.95rem; letter-spacing: 0; }
 .like .l { color: var(--ink-dim); }
@@ -327,7 +331,7 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 /* about */
 .about { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
 .about .lead { margin: 0; font-size: clamp(1.45rem, 3.3vw, 2.5rem); line-height: 1.22; font-weight: 300; letter-spacing: -0.025em; text-wrap: balance; }
-.about .lead em { font-style: normal; color: #fff; font-weight: 500; box-shadow: inset 0 -0.14em 0 rgba(224, 56, 76, 0.55); }
+.about .lead em { font-style: normal; color: #fff; font-weight: 500; box-shadow: inset 0 -0.14em 0 rgba(226, 28, 40, 0.55); }
 .disc { display: grid; border-top: 1px solid var(--line); }
 .disc div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: center; transition: padding 0.5s var(--ease), border-color 0.4s; }
 .disc div:hover { padding-left: 14px; border-color: var(--red); }
@@ -341,10 +345,10 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .card:nth-child(2) { grid-column: span 5; }
 .card:nth-child(3) { grid-column: span 5; }
 .card:nth-child(4) { grid-column: span 7; }
-.card:hover, .card:focus-within, .card.open { border-color: rgba(224, 56, 76, 0.45); }
+.card:hover, .card:focus-within, .card.open { border-color: rgba(226, 28, 40, 0.45); }
 .card .art { position: absolute; inset: -20%; z-index: -2; opacity: 0.85; transition: transform 1.4s var(--ease); will-change: transform, translate; }
 .card:hover .art { transform: scale(1.08) rotate(2deg); }
-.card:nth-child(1) .art { background: radial-gradient(circle at 25% 35%, rgba(168, 34, 52, 0.55), transparent 55%), radial-gradient(circle at 80% 75%, rgba(34, 24, 27, 0.9), transparent 60%); }
+.card:nth-child(1) .art { background: radial-gradient(circle at 25% 35%, rgba(170, 18, 28, 0.55), transparent 55%), radial-gradient(circle at 80% 75%, rgba(34, 24, 27, 0.9), transparent 60%); }
 .card:nth-child(2) .art { background: radial-gradient(circle at 75% 25%, rgba(32, 23, 26, 0.95), transparent 58%), radial-gradient(circle at 20% 80%, rgba(120, 22, 38, 0.5), transparent 55%); }
 .card:nth-child(3) .art { background: radial-gradient(circle at 30% 70%, rgba(33, 24, 27, 0.9), transparent 58%), radial-gradient(circle at 80% 20%, rgba(100, 18, 32, 0.45), transparent 55%); }
 .card:nth-child(4) .art { background: radial-gradient(circle at 70% 30%, rgba(140, 26, 42, 0.5), transparent 55%), radial-gradient(circle at 15% 80%, rgba(31, 22, 25, 0.9), transparent 60%); }
@@ -365,7 +369,7 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .card:hover .sw .def, .card:focus-within .sw .def, .card.open .sw .def { opacity: 0; transform: translateY(-10px); filter: blur(4px); }
 .card:hover .sw .alt, .card:focus-within .sw .alt, .card.open .sw .alt { opacity: 1; transform: none; filter: none; visibility: visible; transition: opacity 0.5s var(--ease), transform 0.7s var(--ease), filter 0.5s, visibility 0s; }
 .cl { display: inline-flex; align-items: center; gap: 8px; align-self: start; justify-self: start; width: max-content; max-width: 100%; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(255, 255, 255, 0.06); font: 500 0.8rem/1 var(--font-mono); letter-spacing: 0.02em; color: var(--ink); text-decoration: none; transition: border-color 0.3s, background 0.3s; }
-.cl:hover { border-color: var(--red); background: rgba(224, 56, 76, 0.1); }
+.cl:hover { border-color: var(--red); background: rgba(226, 28, 40, 0.1); }
 .cl svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 
@@ -375,6 +379,11 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .slide.before { transform: translateX(-46px) scale(0.96); }
 .slide.on { opacity: 1; visibility: visible; transform: none; filter: none; transition: opacity 0.7s var(--ease), transform 1s var(--ease), filter 0.7s var(--ease), visibility 0s; }
 .slide .shot { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: auto; height: auto; max-width: 100%; max-height: 100%; }
+.pair { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+.pair img { display: block; width: auto; height: auto; max-width: 78%; max-height: 47%; border-radius: 12px; box-shadow: 0 24px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08); rotate: -1.2deg; translate: -4% 0; animation: float 7s ease-in-out infinite; }
+.pair img.b { rotate: 1.2deg; translate: 4% 0; animation-delay: -3.5s; }
+.pair img { position: relative; z-index: 1; transition: scale 0.6s var(--ease), rotate 0.6s var(--ease), box-shadow 0.6s var(--ease); cursor: zoom-in; }
+.pair img:hover, .pair img:active { scale: 1.38; rotate: 0deg; z-index: 3; box-shadow: 0 34px 80px -20px rgba(0,0,0,.95), 0 0 0 1px rgba(255,255,255,.16); }
 .bots { display: grid; }
 .bots > .bot { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(14px); filter: blur(6px); transition: opacity 0.5s var(--ease), transform 0.8s var(--ease), filter 0.5s, visibility 0s linear 0.5s; }
 .bots > .bot.on { opacity: 1; visibility: visible; transform: none; filter: none; transition: opacity 0.6s var(--ease) 0.15s, transform 0.9s var(--ease) 0.15s, filter 0.6s 0.15s, visibility 0s; }
@@ -386,7 +395,7 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .arr { position: absolute; z-index: 4; top: calc(50% - 30px); translate: 0 -50%; width: 42px; height: 42px; display: grid; place-items: center; padding: 0; border-radius: 50%; border: 1px solid var(--line-strong); background: rgba(8, 9, 11, 0.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--ink); cursor: pointer; opacity: 0.8; transition: opacity 0.3s, border-color 0.3s, background 0.3s, scale 0.4s var(--ease); }
 .arr.prev { left: 10px; } .arr.next { right: 10px; }
 .arr svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.arr:hover { opacity: 1; border-color: var(--red); background: rgba(224, 56, 76, 0.16); scale: 1.08; }
+.arr:hover { opacity: 1; border-color: var(--red); background: rgba(226, 28, 40, 0.16); scale: 1.08; }
 .arr:active { scale: 0.94; }
 .timer { position: absolute; z-index: 4; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(255, 255, 255, 0.06); pointer-events: none; }
 .timer i { position: absolute; inset: 0; background: linear-gradient(90deg, var(--red), #fff); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
@@ -450,8 +459,8 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .shot { display: block; height: 100%; width: auto; max-width: 100%; object-fit: contain; border-radius: 12px; border: 1px solid var(--line-strong); box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.85); }
 
 /* contact */
-.contact { position: relative; border: 1px solid var(--line); border-radius: 28px; padding: clamp(28px, 5vw, 72px); overflow: hidden; background: linear-gradient(160deg, rgba(224, 56, 76, 0.07), rgba(255, 255, 255, 0.02) 45%); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
-.contact::before { content: ""; position: absolute; width: 60%; aspect-ratio: 1; right: -18%; top: -50%; background: radial-gradient(circle, rgba(224, 56, 76, 0.2), transparent 65%); z-index: -1; }
+.contact { position: relative; border: 1px solid var(--line); border-radius: 28px; padding: clamp(28px, 5vw, 72px); overflow: hidden; background: linear-gradient(160deg, rgba(226, 28, 40, 0.07), rgba(255, 255, 255, 0.02) 45%); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.contact::before { content: ""; position: absolute; width: 60%; aspect-ratio: 1; right: -18%; top: -50%; background: radial-gradient(circle, rgba(226, 28, 40, 0.2), transparent 65%); z-index: -1; }
 .contact h2 { margin: 0 0 14px; font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 6vw, 4.6rem); letter-spacing: -0.045em; line-height: 0.98; text-wrap: balance; max-width: 14ch; }
 .contact > p { margin: 0 0 clamp(24px, 3vw, 40px); color: var(--ink-dim); max-width: 46ch; }
 .channels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
@@ -472,7 +481,7 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
 
 /* ---------- cursor ---------- */
 .cur { position: fixed; left: 0; top: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1px solid rgba(255, 255, 255, 0.45); border-radius: 50%; pointer-events: none; z-index: 110; transform: translate(-100px, -100px); transition: width 0.5s var(--ease), height 0.5s var(--ease), margin 0.5s var(--ease), background 0.4s, border-color 0.4s; }
-.cur.hot { width: 74px; height: 74px; margin: -37px 0 0 -37px; background: rgba(224, 56, 76, 0.1); border-color: rgba(224, 56, 76, 0.55); }
+.cur.hot { width: 74px; height: 74px; margin: -37px 0 0 -37px; background: rgba(226, 28, 40, 0.1); border-color: rgba(226, 28, 40, 0.55); }
 .cur-dot { position: fixed; left: 0; top: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--red); pointer-events: none; z-index: 111; transform: translate(-100px, -100px); }
 
 /* ---------- responsive ---------- */
@@ -490,8 +499,8 @@ footer { position: relative; z-index: 1; max-width: 1180px; margin: clamp(48px, 
 .tools { display: inline-flex; align-items: center; gap: 8px; }
 .lang { appearance: none; position: relative; display: inline-flex; align-items: center; height: 36px; padding: 3px; border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(255, 255, 255, 0.03); color: var(--ink-faint); font: 500 0.68rem/1 var(--font-mono); letter-spacing: 0.1em; cursor: pointer; transition: height 0.8s var(--ease), border-color 0.3s; }
 nav.top.scrolled .lang { height: 32px; }
-.lang:hover { border-color: rgba(224, 56, 76, 0.5); }
-.lang::before { content: ""; position: absolute; left: 3px; top: 3px; bottom: 3px; width: calc(50% - 3px); border-radius: 999px; background: rgba(224, 56, 76, 0.16); border: 1px solid rgba(224, 56, 76, 0.45); transition: transform 0.6s var(--ease); }
+.lang:hover { border-color: rgba(226, 28, 40, 0.5); }
+.lang::before { content: ""; position: absolute; left: 3px; top: 3px; bottom: 3px; width: calc(50% - 3px); border-radius: 999px; background: rgba(226, 28, 40, 0.16); border: 1px solid rgba(226, 28, 40, 0.45); transition: transform 0.6s var(--ease); }
 html[lang="pl"] .lang::before { transform: translateX(100%); }
 .lang span { position: relative; z-index: 1; min-width: 32px; display: grid; place-items: center; padding: 0 2px; transition: color 0.3s; }
 html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l="pl"] { color: var(--ink); }
@@ -527,6 +536,7 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
     <div class="intro-meta"><span>Portfolio</span><span class="count" id="count">000</span></div>
     <div class="enter" aria-hidden="true"><span data-i="enter">Click to enter</span></div>
   </div>
+  <div class="song" aria-hidden="true"><i></i><span><span data-i="np">Now playing</span> · <b>We dont gotta</b> by Jades</span></div>
 </div>
 
 <div class="atmos" aria-hidden="true">
@@ -691,13 +701,14 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
             <div class="slide on"><img class="shot" src="img/verification.jpg" width="621" height="411" alt="Discord verification message in Polish: Zweryfikuj sie, with a dropdown to pick the HEX code" data-ia="alt=alt_ver"></div>
             <div class="slide"><img class="shot" src="img/tickets.jpg" width="1410" height="738" alt="Discord ticket logs: a Ticket closed message with a downloadable HTML transcript, and a New ticket panel created message" data-ia="alt=alt_tick"></div>
             <div class="slide"><img class="shot" src="img/giveaway.png" width="449" height="309" alt="Discord giveaway message in Polish: Cool giveaway, with the buttons Wez udzial and Zobacz uczestnikow" data-ia="alt=alt_give"></div>
+            <div class="slide"><div class="pair"><img src="img/suggestion.jpg" width="665" height="338" alt="Discord suggestion embed with three vote buttons" data-ia="alt=alt_sug"><img class="b" src="img/suggestion-log.jpg" width="568" height="235" alt="Log message: New suggestion created" data-ia="alt=alt_sug2"></div></div>
           </div>
         </div>
         <button class="arr prev" type="button" aria-label="Previous system" data-ia="aria-label=prev_aria"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
         <button class="arr next" type="button" aria-label="Next system" data-ia="aria-label=next_aria"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
         <div class="timer" aria-hidden="true"><i></i></div>
         <div class="meta">
-          <div class="meta-top"><span class="tag" data-i="t_bot">Discord bot</span><span class="dots" role="group" aria-label="Bot systems" data-ia="aria-label=dots_aria"><button class="dot on" type="button" aria-label="Verification system" data-ia="aria-label=h_ver"></button><button class="dot" type="button" aria-label="Ticket system" data-ia="aria-label=h_tick"></button><button class="dot" type="button" aria-label="Giveaway system" data-ia="aria-label=h_give"></button></span></div>
+          <div class="meta-top"><span class="tag" data-i="t_bot">Discord bot</span><span class="dots" role="group" aria-label="Bot systems" data-ia="aria-label=dots_aria"><button class="dot on" type="button" aria-label="Verification system" data-ia="aria-label=h_ver"></button><button class="dot" type="button" aria-label="Ticket system" data-ia="aria-label=h_tick"></button><button class="dot" type="button" aria-label="Giveaway system" data-ia="aria-label=h_give"></button><button class="dot" type="button" aria-label="Suggestion system" data-ia="aria-label=h_sug"></button></span></div>
           <div class="bots">
             <div class="bot on">
               <h3 data-i="h_ver">Verification system</h3>
@@ -718,6 +729,13 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
               <div class="sw">
                 <p class="def" data-i="d_give">Giveaways with join and participant buttons.</p>
                 <p class="alt" data-i="a_give">A test giveaway command. The end time shows "undefined" because it was only a test. The text is in Polish.</p>
+              </div>
+            </div>
+            <div class="bot">
+              <h3 data-i="h_sug">Suggestion system</h3>
+              <div class="sw">
+                <p class="def" data-i="d_sug">Suggestions with voting and creation logs.</p>
+                <p class="alt" data-i="a_sug">Deletes the user's message and reposts it as a suggestion for everyone to vote on. Each new suggestion is also logged.</p>
               </div>
             </div>
           </div>
@@ -751,14 +769,14 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
   var CONTACT = { discord: "Hygrine", email: "Hygrine@proton.me" };
   /* Shared like counter for hosting outside Claude (GitHub Pages etc.): paste your Cloudflare Worker URL here,
      e.g. "https://hygrine-likes.YOURNAME.workers.dev/likes". Leave empty inside Claude. See README. */
-  var LIKES_API = "https://hygrine-likes.pokomoko97.workers.dev/likes";
+  var LIKES_API = "";
   var BASE = 38;
   var TZ = "Europe/Warsaw";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine = window.matchMedia("(pointer: fine)").matches;
 
   /* ================= language: Polish / English ================= */
-  var PL = {"intro_aria": "Kliknij, aby wejść do portfolio", "enter": "Kliknij, aby wejść", "logo_aria": "Hygrine, wróć na górę", "nav_about": "O mnie", "nav_work": "Prace", "nav_contact": "Kontakt", "snd_title": "Efekty dźwiękowe", "lang_aria": "Język", "roles": "<b>Animator</b>, projektant graficzny, twórca serwerów i botów Discord.", "cta": "Skontaktuj się", "like_aria": "Polub to portfolio", "likes": "polubień", "localtime": "Czas lokalny", "poland": "Polska", "timer_aria": "Aktualny czas w Polsce", "findme": "Znajdziesz mnie tu", "twolinks": "2 linki", "pill_work": "Moje prace", "pill_links": "Wszystkie moje linki", "m_anim": "Animacja", "m_gfx": "Grafiki i loga", "m_disc": "Serwery Discord", "m_bots": "Boty na zamówienie", "lead": "Animator, projektant graficzny, twórca serwerów i botów Discord. <em>Napisz do mnie na Discordzie lub mailowo</em>, aby poznać szczegóły.", "d_anim": "Animacja", "d_anim_s": "Ruch", "d_gfx": "Grafiki i loga", "d_gfx_s": "Grafika", "d_disc": "Serwery Discord", "d_disc_s": "Społeczność", "d_bots": "Tworzenie botów", "d_bots_s": "Kod", "work_h": "Wybrane prace", "hint": "Najedź na kartę, aby zobaczyć szczegóły", "hint_tap": "Dotknij karty, aby zobaczyć szczegóły", "alt_logo1": "Logo Hygrine", "alt_logo3": "Logo WE CHEAT: białe pochylone litery z czerwoną gwiazdą", "alt_logo2": "Drugi projekt logo: głowa turkusowego wilka z napisem .wtf", "t_logos": "Logotypy", "h_logo": "Projekty logo", "d_logo": "Projekty logo. Wszystkie moje prace są na Cara.", "t_anim": "Animacje", "s_loops": "Pętle na żywo", "h_anim": "Animacje", "d_anim2": "Animacje z dopracowanym timingiem, płynnym ruchem i pętlami.", "s_soon": "Wkrótce", "h_srv": "Budowa serwerów", "d_srv": "Układy kanałów, role i konfiguracje.", "a_srv": "Przykłady wkrótce.", "t_bot": "Bot Discord", "dots_aria": "Systemy botów", "h_ver": "System weryfikacji", "h_tick": "System ticketów", "h_give": "System giveaway", "prev_aria": "Poprzedni system", "next_aria": "Następny system", "alt_ver": "Wiadomość weryfikacyjna na Discordzie: Zweryfikuj się, z listą do wyboru kodu HEX", "alt_tick": "Logi ticketów na Discordzie: wiadomość o zamknięciu ticketu z transkryptem HTML do pobrania i wiadomość o utworzeniu panelu ticketów", "alt_give": "Wiadomość giveaway na Discordzie: Cool giveaway, z przyciskami Weź udział! i Zobacz uczestników", "d_ver": "Weryfikacja na serwerze w języku polskim.", "a_ver": "Komenda weryfikacji losuje kod HEX. Trzeba wybrać go z listy.", "d_tick": "Panele ticketów, logi i transkrypty.", "a_tick": "Prywatne tickety tworzone z panelu. Zamknięcie ticketu wysyła log i transkrypt HTML do pobrania.", "d_give": "Giveaway z przyciskami dołączenia i uczestników.", "a_give": "Testowa komenda giveaway. Czas zakończenia pokazuje „undefined”, bo to był tylko test. Tekst jest po polsku.", "c_h": "Masz pomysł na projekt?", "c_p": "Napisz do mnie na Discordzie lub mailowo ze szczegółami, a odpowiem."};
+  var PL = {"intro_aria": "Kliknij, aby wejść do portfolio", "enter": "Kliknij, aby wejść", "np": "Teraz gra", "logo_aria": "Hygrine, wróć na górę", "nav_about": "O mnie", "nav_work": "Prace", "nav_contact": "Kontakt", "snd_title": "Efekty dźwiękowe", "lang_aria": "Język", "roles": "<b>Animator</b>, projektant graficzny, twórca serwerów i botów Discord.", "cta": "Skontaktuj się", "like_aria": "Polub to portfolio", "likes": "polubień", "localtime": "Czas lokalny", "poland": "Polska", "timer_aria": "Aktualny czas w Polsce", "findme": "Znajdziesz mnie tu", "twolinks": "2 linki", "pill_work": "Moje prace", "pill_links": "Wszystkie moje linki", "m_anim": "Animacja", "m_gfx": "Grafiki i loga", "m_disc": "Serwery Discord", "m_bots": "Boty na zamówienie", "lead": "Animator, projektant graficzny, twórca serwerów i botów Discord. <em>Napisz do mnie na Discordzie lub mailowo</em>, aby poznać szczegóły.", "d_anim": "Animacja", "d_anim_s": "Ruch", "d_gfx": "Grafiki i loga", "d_gfx_s": "Grafika", "d_disc": "Serwery Discord", "d_disc_s": "Społeczność", "d_bots": "Tworzenie botów", "d_bots_s": "Kod", "work_h": "Wybrane prace", "hint": "Najedź na kartę, aby zobaczyć szczegóły", "hint_tap": "Dotknij karty, aby zobaczyć szczegóły", "alt_logo1": "Logo Hygrine", "alt_logo3": "Logo WE CHEAT: białe pochylone litery z czerwoną gwiazdą", "alt_logo2": "Drugi projekt logo: głowa turkusowego wilka z napisem .wtf", "t_logos": "Logotypy", "h_logo": "Projekty logo", "d_logo": "Projekty logo. Wszystkie moje prace są na Cara.", "t_anim": "Animacje", "s_loops": "Pętle na żywo", "h_anim": "Animacje", "d_anim2": "Animacje z dopracowanym timingiem, płynnym ruchem i pętlami.", "s_soon": "Wkrótce", "h_srv": "Budowa serwerów", "d_srv": "Układy kanałów, role i konfiguracje.", "a_srv": "Przykłady wkrótce.", "t_bot": "Bot Discord", "dots_aria": "Systemy botów", "h_ver": "System weryfikacji", "h_tick": "System ticketów", "h_give": "System giveaway", "h_sug": "System sugestii", "d_sug": "Sugestie z głosowaniem i logami tworzenia.", "a_sug": "Usuwa wiadomość użytkownika i wysyła ją ponownie jako sugestię, nad którą wszyscy mogą głosować. Każda nowa sugestia jest też logowana.", "alt_sug": "Embed sugestii na Discordzie z trzema przyciskami głosowania", "alt_sug2": "Log: Nowa sugestia utworzona", "prev_aria": "Poprzedni system", "next_aria": "Następny system", "alt_ver": "Wiadomość weryfikacyjna na Discordzie: Zweryfikuj się, z listą do wyboru kodu HEX", "alt_tick": "Logi ticketów na Discordzie: wiadomość o zamknięciu ticketu z transkryptem HTML do pobrania i wiadomość o utworzeniu panelu ticketów", "alt_give": "Wiadomość giveaway na Discordzie: Cool giveaway, z przyciskami Weź udział! i Zobacz uczestników", "d_ver": "Weryfikacja na serwerze w języku polskim.", "a_ver": "Komenda weryfikacji losuje kod HEX. Trzeba wybrać go z listy.", "d_tick": "Panele ticketów, logi i transkrypty.", "a_tick": "Prywatne tickety tworzone z panelu. Zamknięcie ticketu wysyła log i transkrypt HTML do pobrania.", "d_give": "Giveaway z przyciskami dołączenia i uczestników.", "a_give": "Testowa komenda giveaway. Czas zakończenia pokazuje „undefined”, bo to był tylko test. Tekst jest po polsku.", "c_h": "Masz pomysł na projekt?", "c_p": "Napisz do mnie na Discordzie lub mailowo ze szczegółami, a odpowiem."};
   var S = {
     en: { sndOn: "Sound", sndOff: "Sound", ariaOn: "Sound effects on", ariaOff: "Sound effects off", copy: "Copy", copied: "Copied", noUser: "Username coming soon", noMail: "Address coming soon", city: "Warsaw", loc: "en-GB" },
     pl: { sndOn: "Dźwięk", sndOff: "Dźwięk", ariaOn: "Efekty dźwiękowe włączone", ariaOff: "Efekty dźwiękowe wyłączone", copy: "Kopiuj", copied: "Skopiowano", noUser: "Nazwa użytkownika wkrótce", noMail: "Adres wkrótce", city: "Warszawa", loc: "pl-PL" }
@@ -785,7 +803,7 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
     if (!AC) return null;
     if (!actx) {
       try { actx = new AC(); } catch (e) { return null; }
-      bus = actx.createGain(); bus.gain.value = 0.75;
+      bus = actx.createGain(); bus.gain.value = 1.5;
       var comp = actx.createDynamicsCompressor();
       bus.connect(comp); comp.connect(actx.destination);
     }
@@ -852,9 +870,42 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
     v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, "data"); v.setUint32(40, n * 2, true);
     return URL.createObjectURL(new Blob([b], { type: "audio/wav" }));
   }
+
+  /* background music: streams from a plain audio element (low memory), quiet, follows the Sound button */
+  var bg = null, bgWant = false, bgVol = 0.09, bgTick = 0;
+  function bgFade(to, done) {
+    clearInterval(bgTick);
+    bgTick = setInterval(function () {
+      var v = bg.volume, d = to - v;
+      if (Math.abs(d) < 0.006) { clearInterval(bgTick); bg.volume = to; if (done) done(); return; }
+      bg.volume = Math.max(0, Math.min(1, v + d * 0.12));
+    }, 50);
+  }
+  function bgPlay() {
+    if (!soundOn) return;
+    try {
+      if (!bg) { bg = new Audio("audio/bg.mp3"); bg.loop = true; bg.preload = "auto"; bg.volume = 0; bg.setAttribute("playsinline", ""); }
+      bgWant = true;
+      if (!bg.paused) { bgFade(bgVol); return; }
+      var pr = bg.play();
+      if (pr && pr.then) pr.then(function () { bgFade(bgVol); }).catch(function () {});
+      else bgFade(bgVol);
+    } catch (e) {}
+  }
+  function bgStop() {
+    bgWant = false;
+    if (!bg) return;
+    bgFade(0, function () { if (!bgWant) bg.pause(); });
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (!bg) return;
+    if (document.hidden) { clearInterval(bgTick); bg.pause(); }
+    else if (bgWant && soundOn) { var p2 = bg.play(); if (p2 && p2.catch) p2.catch(function () {}); bgFade(bgVol); }
+  });
   var unlockEv = ["pointerup", "touchend", "click", "keydown", "mousedown"];
   function unlock() {
     try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
+    bgPlay();
     var c = audio();
     if (!c) return;
     try { var bf = c.createBuffer(1, 1, 22050), src = c.createBufferSource(); src.buffer = bf; src.connect(c.destination); src.start(0); } catch (e) {}
@@ -878,8 +929,8 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
   }
   paintSound();
   snd.addEventListener("click", function () {
-    if (soundOn) { sfx.off(); soundOn = false; }
-    else { soundOn = true; audio(); setTimeout(sfx.on, 90); }
+    if (soundOn) { sfx.off(); soundOn = false; bgStop(); }
+    else { soundOn = true; audio(); setTimeout(sfx.on, 90); bgPlay(); }
     paintSound();
     try { localStorage.setItem("hyg-sound", soundOn ? "1" : "0"); } catch (e) {}
   });
