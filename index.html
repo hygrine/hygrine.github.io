@@ -1,4 +1,11 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>*,*::before,*::after{box-sizing:border-box}html,body{margin:0;padding:0;background:#010102}</style>
+</head>
+<body>
 <title>Hygrine Portfolio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +22,7 @@
   --ink-faint: #666b73;
   --line: rgba(255, 255, 255, 0.07);
   --line-strong: rgba(255, 255, 255, 0.14);
-  --red: #e0384c;
+  --red: #df2020;
   --red-deep: #5c0d19;
   --red-glow: rgba(224, 56, 76, 0.28);
   --glass: rgba(16, 17, 20, 0.58);
@@ -751,7 +758,7 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
   var CONTACT = { discord: "Hygrine", email: "Hygrine@proton.me" };
   /* Shared like counter for hosting outside Claude (GitHub Pages etc.): paste your Cloudflare Worker URL here,
      e.g. "https://hygrine-likes.YOURNAME.workers.dev/likes". Leave empty inside Claude. See README. */
-  var LIKES_API = "";
+  var LIKES_API = "https://hygrine-likes.pokomoko97.workers.dev/likes";
   var BASE = 38;
   var TZ = "Europe/Warsaw";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1442,4 +1449,5 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
 })();
 </script>
 
-</body></html>
+</body>
+</html>
