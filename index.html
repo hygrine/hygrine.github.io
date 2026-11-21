@@ -15,7 +15,7 @@
   --ink-faint: #666b73;
   --line: rgba(255, 255, 255, 0.07);
   --line-strong: rgba(255, 255, 255, 0.14);
-  --red: #d6142b;
+  --red: #e0384c;
   --red-deep: #5c0d19;
   --red-glow: rgba(224, 56, 76, 0.28);
   --glass: rgba(16, 17, 20, 0.58);
@@ -138,11 +138,6 @@ html:not(.wait) .enter { opacity: 0; transform: translateY(8px); animation: none
   60% { transform: translate(-48px, -14px); }
   80% { transform: translate(38px, 30px); }
   100% { transform: translate(0, 0); }
-}
-.progress { position: fixed; left: 0; right: 0; top: env(safe-area-inset-top, 0px); height: 2px; z-index: 60; pointer-events: none; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, rgba(255, 255, 255, 0.25), var(--red)); }
-@supports (animation-timeline: scroll()) {
-  .progress { animation: grow linear both; animation-timeline: scroll(root); }
-  @keyframes grow { to { transform: scaleX(1); } }
 }
 
 /* ---------- shell and nav ---------- */
@@ -400,18 +395,24 @@ section { padding-block: clamp(64px, 9vw, 130px) 0; scroll-margin-top: 70px; }
 .logo-tile { width: min(100%, 560px); padding: 22px 28px; border-radius: 16px; background: var(--tile); box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.9); animation: float 7s ease-in-out infinite; }
 .logo-tile img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 @keyframes float { 50% { transform: translateY(-7px); } }
-.logos { display: grid; justify-items: center; gap: 12px; width: 100%; }
-.logos .logo-tile { width: min(100%, 400px); padding: 16px 22px; translate: -26px 0; rotate: -1.2deg; transition: translate 0.9s var(--ease), rotate 0.9s var(--ease); }
-.logos .logo-tile.alt { padding: 0; overflow: hidden; background: #000; box-shadow: 0 24px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08); translate: 26px 0; rotate: 1.4deg; animation-delay: -3.5s; }
-.logos .logo-tile.alt img { mix-blend-mode: normal; }
-.card:hover .logos .logo-tile, .card:focus-within .logos .logo-tile, .card.open .logos .logo-tile { translate: 0 0; rotate: 0deg; }
+.logos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: center; align-items: center; gap: 12px; width: 100%; max-width: 540px; }
+.logos .logo-tile { width: min(100%, 400px); grid-column: 1 / -1; padding: 16px 22px; translate: 0 0; rotate: -1.2deg; transition: translate 0.9s var(--ease), rotate 0.9s var(--ease); }
+.logos .logo-tile.alt, .logos .logo-tile.third { grid-column: auto; width: 100%; padding: 0; overflow: hidden; background: #000; box-shadow: 0 24px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08); rotate: 1.4deg; animation-delay: -3.5s; }
+.logos .logo-tile.third { background: #09090a; rotate: -1deg; animation-delay: -1.5s; }
+.logos .logo-tile.alt img, .logos .logo-tile.third img { mix-blend-mode: normal; }
+.card:hover .logos .logo-tile, .card:focus-within .logos .logo-tile, .card.open .logos .logo-tile { rotate: 0deg; }
 @media (max-width: 860px) {
-  .logos .logo-tile { width: min(84%, 300px); translate: -14px 0; }
-  .logos .logo-tile.alt { translate: 14px 0; }
+  .logos { max-width: 100%; }
+  .logos .logo-tile:first-child { width: min(84%, 300px); }
 }
 /* work art: motion loops */
-.lab { display: flex; align-items: center; justify-content: center; gap: clamp(22px, 4vw, 48px); height: 110px; }
-.sh { width: 46px; height: 46px; background: var(--ink); }
+.lab { width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 30px clamp(22px, 4vw, 48px); }
+.soon { flex-basis: 100%; margin: 0; text-align: center; font: 500 0.78rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.34em; padding-left: 0.34em; color: transparent; background: linear-gradient(100deg, rgba(255, 255, 255, 0.32) 35%, #fff 50%, rgba(255, 255, 255, 0.32) 65%) 100% 0 / 250% 100% no-repeat; -webkit-background-clip: text; background-clip: text; animation: shine 3s linear infinite, soon-in 1s var(--ease) both; }
+.soon::after { content: "..."; display: inline-block; width: 0; overflow: hidden; vertical-align: bottom; letter-spacing: 0.2em; animation: dots 1.8s steps(4) infinite; }
+@keyframes shine { to { background-position: 0 0; } }
+@keyframes dots { to { width: 1.3em; } }
+@keyframes soon-in { from { opacity: 0; transform: translateY(8px); } }
+.sh { flex: none; width: 46px; height: 46px; background: var(--ink); }
 .sh.morph { animation: morph 6s ease-in-out infinite; }
 .sh.ball { border-radius: 50%; animation: bounce 1.6s infinite; }
 .sh.sq { background: transparent; border: 2px solid var(--ink); animation: turn 4.5s var(--ease-io) infinite; }
@@ -538,7 +539,6 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
   <div class="vignette"></div>
 </div>
 <div class="noise" aria-hidden="true"></div>
-<div class="progress" aria-hidden="true"></div>
 
 <div class="wrap">
   <nav class="top" id="nav" aria-label="Main">
@@ -634,7 +634,7 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
     <div class="work">
       <article class="card rv" tabindex="0">
         <div class="art"></div>
-        <div class="media"><div class="logos"><div class="logo-tile"><img src="img/logo.jpg" width="1600" height="389" alt="Hygrine logo" data-ia="alt=alt_logo1"></div><div class="logo-tile alt"><img src="img/logo2b.jpg" width="1200" height="334" alt="Second logo design: a teal wolf head with a .wtf wordmark" data-ia="alt=alt_logo2"></div></div></div>
+        <div class="media"><div class="logos"><div class="logo-tile"><img src="img/logo.jpg" width="1600" height="389" alt="Hygrine logo" data-ia="alt=alt_logo1"></div><div class="logo-tile alt"><img src="img/logo2b.jpg" width="1200" height="334" alt="Second logo design: a teal wolf head with a .wtf wordmark" data-ia="alt=alt_logo2"></div><div class="logo-tile third"><img src="img/logo3.png" width="1200" height="508" alt="WE CHEAT logo: white italic lettering with a red star" data-ia="alt=alt_logo3"></div></div></div>
         <div class="meta">
           <span class="tag" data-i="t_logos">Logos</span>
           <div class="bot">
@@ -650,10 +650,10 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
       <article class="card rv" tabindex="0">
         <div class="art"></div>
         <div class="media">
-          <div class="lab" aria-hidden="true"><span class="sh morph"></span><span class="sh ball"></span><span class="sh sq"></span></div>
+          <div class="lab"><span class="sh morph" aria-hidden="true"></span><span class="sh ball" aria-hidden="true"></span><span class="sh sq" aria-hidden="true"></span><p class="soon" data-i="s_soon">Coming soon</p></div>
         </div>
         <div class="meta">
-          <div class="meta-top"><span class="tag" data-i="t_anim">Animations</span><span class="state" data-i="s_loops">Live loops</span></div>
+          <div class="meta-top"><span class="tag" data-i="t_anim">Animations</span></div>
           <div class="bot">
             <h3 data-i="h_anim">Animation work</h3>
             <div class="sw">
@@ -749,13 +749,16 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
 <script>
 (function () {
   var CONTACT = { discord: "Hygrine", email: "Hygrine@proton.me" };
+  /* Shared like counter for hosting outside Claude (GitHub Pages etc.): paste your Cloudflare Worker URL here,
+     e.g. "https://hygrine-likes.YOURNAME.workers.dev/likes". Leave empty inside Claude. See README. */
+  var LIKES_API = "";
   var BASE = 38;
   var TZ = "Europe/Warsaw";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var fine = window.matchMedia("(pointer: fine)").matches;
 
   /* ================= language: Polish / English ================= */
-  var PL = {"intro_aria": "Kliknij, aby wejść do portfolio", "enter": "Kliknij, aby wejść", "logo_aria": "Hygrine, wróć na górę", "nav_about": "O mnie", "nav_work": "Prace", "nav_contact": "Kontakt", "snd_title": "Efekty dźwiękowe", "lang_aria": "Język", "roles": "<b>Animator</b>, projektant graficzny, twórca serwerów i botów Discord.", "cta": "Skontaktuj się", "like_aria": "Polub to portfolio", "likes": "polubień", "localtime": "Czas lokalny", "poland": "Polska", "timer_aria": "Aktualny czas w Polsce", "findme": "Znajdziesz mnie tu", "twolinks": "2 linki", "pill_work": "Moje prace", "pill_links": "Wszystkie moje linki", "m_anim": "Animacja", "m_gfx": "Grafiki i loga", "m_disc": "Serwery Discord", "m_bots": "Boty na zamówienie", "lead": "Animator, projektant graficzny, twórca serwerów i botów Discord. <em>Napisz do mnie na Discordzie lub mailowo</em>, aby poznać szczegóły.", "d_anim": "Animacja", "d_anim_s": "Ruch", "d_gfx": "Grafiki i loga", "d_gfx_s": "Grafika", "d_disc": "Serwery Discord", "d_disc_s": "Społeczność", "d_bots": "Tworzenie botów", "d_bots_s": "Kod", "work_h": "Wybrane prace", "hint": "Najedź na kartę, aby zobaczyć szczegóły", "hint_tap": "Dotknij karty, aby zobaczyć szczegóły", "alt_logo1": "Logo Hygrine", "alt_logo2": "Drugi projekt logo: głowa turkusowego wilka z napisem .wtf", "t_logos": "Logotypy", "h_logo": "Projekty logo", "d_logo": "Projekty logo. Wszystkie moje prace są na Cara.", "t_anim": "Animacje", "s_loops": "Pętle na żywo", "h_anim": "Animacje", "d_anim2": "Animacje z dopracowanym timingiem, płynnym ruchem i pętlami.", "s_soon": "Wkrótce", "h_srv": "Budowa serwerów", "d_srv": "Układy kanałów, role i konfiguracje.", "a_srv": "Przykłady wkrótce.", "t_bot": "Bot Discord", "dots_aria": "Systemy botów", "h_ver": "System weryfikacji", "h_tick": "System ticketów", "h_give": "System giveaway", "prev_aria": "Poprzedni system", "next_aria": "Następny system", "alt_ver": "Wiadomość weryfikacyjna na Discordzie: Zweryfikuj się, z listą do wyboru kodu HEX", "alt_tick": "Logi ticketów na Discordzie: wiadomość o zamknięciu ticketu z transkryptem HTML do pobrania i wiadomość o utworzeniu panelu ticketów", "alt_give": "Wiadomość giveaway na Discordzie: Cool giveaway, z przyciskami Weź udział! i Zobacz uczestników", "d_ver": "Weryfikacja na serwerze w języku polskim.", "a_ver": "Komenda weryfikacji losuje kod HEX. Trzeba wybrać go z listy.", "d_tick": "Panele ticketów, logi i transkrypty.", "a_tick": "Prywatne tickety tworzone z panelu. Zamknięcie ticketu wysyła log i transkrypt HTML do pobrania.", "d_give": "Giveaway z przyciskami dołączenia i uczestników.", "a_give": "Testowa komenda giveaway. Czas zakończenia pokazuje „undefined”, bo to był tylko test. Tekst jest po polsku.", "c_h": "Masz pomysł na projekt?", "c_p": "Napisz do mnie na Discordzie lub mailowo ze szczegółami, a odpowiem."};
+  var PL = {"intro_aria": "Kliknij, aby wejść do portfolio", "enter": "Kliknij, aby wejść", "logo_aria": "Hygrine, wróć na górę", "nav_about": "O mnie", "nav_work": "Prace", "nav_contact": "Kontakt", "snd_title": "Efekty dźwiękowe", "lang_aria": "Język", "roles": "<b>Animator</b>, projektant graficzny, twórca serwerów i botów Discord.", "cta": "Skontaktuj się", "like_aria": "Polub to portfolio", "likes": "polubień", "localtime": "Czas lokalny", "poland": "Polska", "timer_aria": "Aktualny czas w Polsce", "findme": "Znajdziesz mnie tu", "twolinks": "2 linki", "pill_work": "Moje prace", "pill_links": "Wszystkie moje linki", "m_anim": "Animacja", "m_gfx": "Grafiki i loga", "m_disc": "Serwery Discord", "m_bots": "Boty na zamówienie", "lead": "Animator, projektant graficzny, twórca serwerów i botów Discord. <em>Napisz do mnie na Discordzie lub mailowo</em>, aby poznać szczegóły.", "d_anim": "Animacja", "d_anim_s": "Ruch", "d_gfx": "Grafiki i loga", "d_gfx_s": "Grafika", "d_disc": "Serwery Discord", "d_disc_s": "Społeczność", "d_bots": "Tworzenie botów", "d_bots_s": "Kod", "work_h": "Wybrane prace", "hint": "Najedź na kartę, aby zobaczyć szczegóły", "hint_tap": "Dotknij karty, aby zobaczyć szczegóły", "alt_logo1": "Logo Hygrine", "alt_logo3": "Logo WE CHEAT: białe pochylone litery z czerwoną gwiazdą", "alt_logo2": "Drugi projekt logo: głowa turkusowego wilka z napisem .wtf", "t_logos": "Logotypy", "h_logo": "Projekty logo", "d_logo": "Projekty logo. Wszystkie moje prace są na Cara.", "t_anim": "Animacje", "s_loops": "Pętle na żywo", "h_anim": "Animacje", "d_anim2": "Animacje z dopracowanym timingiem, płynnym ruchem i pętlami.", "s_soon": "Wkrótce", "h_srv": "Budowa serwerów", "d_srv": "Układy kanałów, role i konfiguracje.", "a_srv": "Przykłady wkrótce.", "t_bot": "Bot Discord", "dots_aria": "Systemy botów", "h_ver": "System weryfikacji", "h_tick": "System ticketów", "h_give": "System giveaway", "prev_aria": "Poprzedni system", "next_aria": "Następny system", "alt_ver": "Wiadomość weryfikacyjna na Discordzie: Zweryfikuj się, z listą do wyboru kodu HEX", "alt_tick": "Logi ticketów na Discordzie: wiadomość o zamknięciu ticketu z transkryptem HTML do pobrania i wiadomość o utworzeniu panelu ticketów", "alt_give": "Wiadomość giveaway na Discordzie: Cool giveaway, z przyciskami Weź udział! i Zobacz uczestników", "d_ver": "Weryfikacja na serwerze w języku polskim.", "a_ver": "Komenda weryfikacji losuje kod HEX. Trzeba wybrać go z listy.", "d_tick": "Panele ticketów, logi i transkrypty.", "a_tick": "Prywatne tickety tworzone z panelu. Zamknięcie ticketu wysyła log i transkrypt HTML do pobrania.", "d_give": "Giveaway z przyciskami dołączenia i uczestników.", "a_give": "Testowa komenda giveaway. Czas zakończenia pokazuje „undefined”, bo to był tylko test. Tekst jest po polsku.", "c_h": "Masz pomysł na projekt?", "c_p": "Napisz do mnie na Discordzie lub mailowo ze szczegółami, a odpowiem."};
   var S = {
     en: { sndOn: "Sound", sndOff: "Sound", ariaOn: "Sound effects on", ariaOff: "Sound effects off", copy: "Copy", copied: "Copied", noUser: "Username coming soon", noMail: "Address coming soon", city: "Warsaw", loc: "en-GB" },
     pl: { sndOn: "Dźwięk", sndOff: "Dźwięk", ariaOn: "Efekty dźwiękowe włączone", ariaOff: "Efekty dźwiękowe wyłączone", copy: "Kopiuj", copied: "Skopiowano", noUser: "Nazwa użytkownika wkrótce", noMail: "Adres wkrótce", city: "Warszawa", loc: "pl-PL" }
@@ -1370,10 +1373,39 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
     }
   }
   function saveLocal(v) { localLiked = v; try { localStorage.setItem("hyg-liked", v ? "1" : "0"); } catch (e) {} }
+  /* ---- own backend (Cloudflare Worker) ---- */
+  var vid = "";
+  if (LIKES_API) {
+    try { vid = localStorage.getItem("hyg-vid") || ""; } catch (e) {}
+    if (!/^[A-Za-z0-9-]{16,64}$/.test(vid)) {
+      vid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (String(Math.random()).slice(2) + String(Date.now()) + "0123456789abcdef").slice(0, 32);
+      try { localStorage.setItem("hyg-vid", vid); } catch (e) {}
+    }
+    mine = localLiked;
+  }
+  async function apiCall(method, body) {
+    var url = LIKES_API + (LIKES_API.indexOf("?") < 0 ? "?" : "&") + "vid=" + encodeURIComponent(vid);
+    var res = await fetch(url, method === "POST" ? { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(Object.assign({ vid: vid }, body)) } : { method: "GET" });
+    if (!res.ok) throw new Error("likes " + res.status);
+    return res.json();
+  }
+  async function apiSync() {
+    try { var r = await apiCall("GET"); remote = r.count | 0; mine = !!r.liked; saveLocal(mine); render(); } catch (e) {}
+  }
   async function toggle(btn) {
     if (busy) return;
     busy = true;
     var willLike = !liked();
+    if (LIKES_API) {
+      var was = mine;
+      mine = willLike; saveLocal(willLike);
+      if (willLike !== was) { remote += willLike ? 1 : -1; if (remote < 0) remote = 0; }
+      if (willLike) { burst(btn); sfx.like(); } else { sfx.unlike(); }
+      render();
+      try { var r = await apiCall("POST", { liked: willLike }); remote = r.count | 0; mine = !!r.liked; saveLocal(mine); render(); } catch (e) {}
+      busy = false;
+      return;
+    }
     try {
       if (willLike) {
         if (db && uid) {
@@ -1390,8 +1422,9 @@ html:not([lang="pl"]) .lang span[data-l="en"], html[lang="pl"] .lang span[data-l
   }
   buttons.forEach(function (b) { b.addEventListener("click", function () { toggle(b); }); });
 
-  /* shared counter: one document per person, so nobody can like twice */
-  (async function () {
+  if (LIKES_API) { apiSync(); setInterval(function () { if (!document.hidden) apiSync(); }, 45000); }
+  /* shared counter inside Claude: one document per person, so nobody can like twice */
+  if (!LIKES_API) (async function () {
     try {
       if (!window.claude || !window.claude.use) return;
       var user = await window.claude.use("user");
